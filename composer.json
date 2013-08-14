@@ -1,0 +1,31 @@
+{
+  "name":        "ingenerator/kohana-doctrine2",
+  "type":        "kohana-module",
+  "description": "Integrates the Doctrine2 ORM with Kohana 3.3",
+  "homepage":    "https://github.com/ingenerator/kohana-doctrine2",
+  "license":     "BSD-3-Clause",
+  "keywords":    ["kohana", "doctrine", "orm"],
+  "authors": [
+    {
+      "name":     "Andrew Coulton",
+      "homepage": "https://github.com/acoulton",
+      "role":     "developer"
+    }
+  ],
+  "support": {
+    "issues":   "https://github.com/ingenerator/kohana-doctrine2/issues",
+    "source":   "https://github.com/ingenerator/kohana-doctrine2"
+  },
+  "require": {
+    "composer/installers":      "~1.0",
+    "kohana/core":              "dev-ingenerator-master",
+    "doctrine/orm":             "2.3.*@stable",
+    "php":                      ">=5.3.3"
+  },
+  "require-dev": {
+    "ingenerator/koharness": "dev-master"
+  },
+  "repositories": [
+    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-core"}
+  ]
+}
