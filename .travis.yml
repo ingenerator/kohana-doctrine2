@@ -1,0 +1,15 @@
+# Configuration file for Travis CI test environment
+language: php
+php:
+  - 5.3
+
+before_script:
+  # Ensure composer is up to date and install dependencies
+  - composer self-update
+  - composer install --dev
+  # Generate the koharness Kohana default application
+  - vendor/bin/koharness
+
+
+# Run the Doctrine tests against the koharnessed application in /tmp/koharness
+script: cd /tmp/koharness && vendor/bin/phpunit --bootstrap=modules/unittest/bootstrap.php --group=doctrine modules/unittest/tests.php

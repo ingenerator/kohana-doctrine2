@@ -23,9 +23,11 @@
     "php":                      ">=5.3.3"
   },
   "require-dev": {
-    "ingenerator/koharness": "dev-master"
+    "ingenerator/koharness": "dev-master",
+    "kohana/unittest":       "dev-ingenerator-master"
   },
   "repositories": [
-    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-core"}
+    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-core"},
+    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-unittest"}
   ]
 }
