@@ -195,6 +195,35 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 	}
 
 	/**
+	 * Should use a Kohana-specific annotation driver to support loading model classes from across the CFS
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_registers_the_kohana_annotation_driver()
+	{
+		$factory = new Doctrine_EMFactory();
+		$em = $factory->entity_manager();
+
+		$this->assertInstanceOf('Doctrine_KohanaAnnotationDriver', $em->getConfiguration()->getMetadataDriverImpl());
+	}
+
+	/**
+	 * Because we don't use Doctrine's core newDefaultAnnotationDriver method, we are responsible for registering the
+	 * valid annotations in the AnnotationRegistry.
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_registers_mappings_in_the_annotation_registry()
+	{
+		$factory = new Doctrine_EMFactory();
+		$em = $factory->entity_manager();
+
+		$this->assertTrue(class_exists('\Doctrine\ORM\Mapping\Entity', FALSE));
+	}
+
+	/**
 	 * Gets a stub Config object with at least the specified values. The provided values are merged with the existing
 	 * configuration for each group to improve clarity of tests which only have to specify config values relevant to
 	 * their assertions.

@@ -1,4 +1,7 @@
 <?php
+use Doctrine\Common\Annotations\AnnotationRegistry;
+use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\SimpleAnnotationReader;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
@@ -55,13 +58,13 @@ class Doctrine_EMFactory {
 		$config = $this->config->load('doctrine');
 
 		// Ensure the composer autoloader is registered
-		require_once $config['composer_autoloader'];
+		require_once $config['composer_vendor_path'].'autoload.php';
 
 		// Create the Configuration class
 		$orm_config = new Configuration;
 
 		// Create the metadata driver
-		$driver = $orm_config->newDefaultAnnotationDriver(APPPATH.'/Model');
+		$driver = $this->create_annotation_driver();
 		$orm_config->setMetadataDriverImpl($driver);
 
 		// Configure the proxy directory and namespace
@@ -126,6 +129,28 @@ class Doctrine_EMFactory {
 			default:
 				throw new \InvalidArgumentException("Could not map database type '".$config['type']."' to a Doctrine driver");
 		}
+	}
+
+	/**
+	 * Create an instance of the Kohana annotation driver, which supports loading model files from across the CFS. Also
+	 * handles registering the Doctrine annotations in the Annotation registry - which would normally be handled by
+	 * Doctrine\ORM\Configuration::newDefaultAnnotationDriver.
+	 *
+	 * @return Doctrine_KohanaAnnotationDriver
+	 * @see Doctrine\ORM\Configuration::newDefaultAnnotationDriver
+	 */
+	protected function create_annotation_driver()
+	{
+		// Register the Doctrine annotations
+		$vendor_path = $this->config->load('doctrine')->get('composer_vendor_path');
+		AnnotationRegistry::registerFile($vendor_path.'doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
+
+		// Register the ORM Annotations in the AnnotationReader
+		$reader = new SimpleAnnotationReader();
+		$reader->addNamespace('Doctrine\ORM\Mapping');
+		$cachedReader = new CachedReader($reader, new ArrayCache());
+
+		return new Doctrine_KohanaAnnotationDriver($cachedReader, Kohana::include_paths());
 	}
 
 }

@@ -9,8 +9,8 @@
  * @subpackage config
  */
 return array(
-	// Path to the composer autoloader - may need to be changed in a non-standard directory structure
-	'composer_autoloader' => APPPATH.'../vendor/autoload.php',
+	// Path to the composer vendor directory - may need to be changed in a non-standard directory structure
+	'composer_vendor_path' => APPPATH.'../vendor/',
 
 	// Default proxy class directory
 	'proxy_dir'           => APPPATH.'/classes/Proxies/Model',
