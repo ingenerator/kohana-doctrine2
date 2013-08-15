@@ -85,6 +85,38 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 	}
 
 	/**
+	 * In development, use an array cache (per-request caching only) for query and metadata caching so that changes
+	 * are reflected immediately.
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_sets_array_cache_in_development_environment()
+	{
+		$factory = new Doctrine_EMFactory(NULL, Kohana::DEVELOPMENT);
+		$em = $factory->entity_manager();
+
+		$this->assertInstanceOf('\Doctrine\Common\Cache\ArrayCache', $em->getConfiguration()->getMetadataCacheImpl());
+		$this->assertInstanceOf('\Doctrine\Common\Cache\ArrayCache', $em->getConfiguration()->getQueryCacheImpl());
+	}
+
+	/**
+	 * Outside development, use an APC cache. Ultimately this should be refactored out to allow service injection of
+	 * alternative caches.
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_sets_apc_cache_outside_development()
+	{
+		$factory = new Doctrine_EMFactory(NULL, Kohana::PRODUCTION);
+		$em = $factory->entity_manager();
+
+		$this->assertInstanceOf('\Doctrine\Common\Cache\ApcCache', $em->getConfiguration()->getMetadataCacheImpl());
+		$this->assertInstanceOf('\Doctrine\Common\Cache\ApcCache', $em->getConfiguration()->getQueryCacheImpl());
+	}
+
+	/**
 	 * Gets a stub Config object with at least the specified values. The provided values are merged with the existing
 	 * configuration for each group to improve clarity of tests which only have to specify config values relevant to
 	 * their assertions.

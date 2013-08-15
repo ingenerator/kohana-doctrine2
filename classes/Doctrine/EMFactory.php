@@ -1,4 +1,6 @@
 <?php
+use Doctrine\Common\Cache\ApcCache;
+use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 
@@ -68,11 +70,17 @@ class Doctrine_EMFactory {
 		if ($this->environment === Kohana::DEVELOPMENT)
 		{
 			$orm_config->setAutoGenerateProxyClasses(TRUE);
+			$cache = new ArrayCache;
 		}
 		else
 		{
 			$orm_config->setAutoGenerateProxyClasses(FALSE);
+			$cache = new ApcCache;
 		}
+
+		// Set the cache drivers
+		$orm_config->setMetadataCacheImpl($cache);
+		$orm_config->setQueryCacheImpl($cache);
 
 		// Create the Entity Manager
 		$em = EntityManager::create(array('driver'=>'pdo_mysql'), $orm_config);
