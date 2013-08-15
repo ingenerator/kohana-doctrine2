@@ -19,15 +19,30 @@ class Doctrine_EMFactory {
 	protected $config = NULL;
 
 	/**
-	 * @param Config $config the Kohana config loader - loaded from Kohana::$config if required
+	 * @var int the current Kohana environment
 	 */
-	public function __construct(Config $config = NULL)
+	protected $environment = NULL;
+
+	/**
+	 * Create an instance, optionally injecting any external dependencies which are otherwise loaded from the Kohana
+	 * static methods and classes.
+	 *
+	 * @param Config $config      the Kohana config loader - loaded from Kohana::$config if required
+	 * @param int    $environment a Kohana environment configuration - loaded from Kohana::$environment if required
+	 *
+	 * @return Doctrine_EMFactory
+	 */
+	public function __construct(Config $config = NULL, $environment = NULL)
 	{
 		$this->config = ($config !== NULL) ? $config : Kohana::$config;
+		$this->environment = ($environment !== NULL) ? $environment : Kohana::$environment;
 	}
 
 	/**
-	 * Creates a new EntityManager instance
+	 * Creates a new EntityManager instance based on the provided configuration.
+	 *
+	 *     $factory = new Doctrine_EMFactory;
+	 *     $em = $factory->entity_manager();
 	 *
 	 * @return \Doctrine\ORM\EntityManager
 	 */
@@ -45,9 +60,19 @@ class Doctrine_EMFactory {
 		$driver = $orm_config->newDefaultAnnotationDriver(APPPATH.'/Model');
 		$orm_config->setMetadataDriverImpl($driver);
 
-		// Configure the proxy directory
-		$orm_config->setProxyDir(APPPATH.'/Model/Proxy');
-		$orm_config->setProxyNamespace('Model/Proxy');
+		// Configure the proxy directory and namespace
+		$orm_config->setProxyDir($config['proxy_dir']);
+		$orm_config->setProxyNamespace($config['proxy_namespace']);
+
+		// Configure environment-specific options
+		if ($this->environment === Kohana::DEVELOPMENT)
+		{
+			$orm_config->setAutoGenerateProxyClasses(TRUE);
+		}
+		else
+		{
+			$orm_config->setAutoGenerateProxyClasses(FALSE);
+		}
 
 		// Create the Entity Manager
 		$em = EntityManager::create(array('driver'=>'pdo_mysql'), $orm_config);

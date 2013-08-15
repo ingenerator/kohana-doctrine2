@@ -28,4 +28,120 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 		$this->assertInstanceOf('Doctrine\ORM\EntityManager', $factory->entity_manager());
 	}
 
+	/**
+	 * The proxy directory and proxy namespace should be configurable
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_sets_proxy_details_from_config()
+	{
+		$config = $this->mock_config_values(array(
+			'doctrine' => array(
+				'proxy_dir'       => APPPATH.'classes/My/App/Proxies',
+				'proxy_namespace' => 'My/App/Proxies'
+			)
+		));
+
+		$factory = new Doctrine_EMFactory($config);
+		$em = $factory->entity_manager();
+		$config = $em->getConfiguration();
+
+		$this->assertEquals(APPPATH.'classes/My/App/Proxies', $config->getProxyDir());
+		$this->assertEquals('My/App/Proxies', $config->getProxyNamespace());
+	}
+
+	/**
+	 * Data provider for test_sets_autogenerate_proxies_from_environment
+	 *
+	 * @return array the test cases
+	 */
+	public function provider_environment_autogenerate_proxies()
+	{
+		return array(
+			array(Kohana::DEVELOPMENT, TRUE),
+			array(Kohana::TESTING, FALSE),
+			array(Kohana::PRODUCTION, FALSE),
+		);
+	}
+
+	/**
+	 * Proxies should be automatically built in a development environment but otherwise only generated on request
+	 *
+	 * @param int  $environment         One of the Kohana environment constants
+	 * @param bool $expect_autogenerate Expected value of autogenerate proxies in this environment
+	 *
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @dataProvider provider_environment_autogenerate_proxies
+	 * @return void
+	 */
+	public function test_sets_autogenerate_proxies_from_environment($environment, $expect_autogenerate)
+	{
+		$factory = new Doctrine_EMFactory(NULL, $environment);
+		$em = $factory->entity_manager();
+		$config = $em->getConfiguration();
+
+		$this->assertEquals($expect_autogenerate, $config->getAutoGenerateProxyClasses());
+	}
+
+	/**
+	 * Gets a stub Config object with at least the specified values. The provided values are merged with the existing
+	 * configuration for each group to improve clarity of tests which only have to specify config values relevant to
+	 * their assertions.
+	 *
+	 * [!!] Note that the stubbed Config will only contain values for groups that are explicitly set.
+	 *
+	 *     // In config/foo.php
+	 *     return array(
+	 *         'bar' => 'barvalue',
+	 *         'foo' => 'foovalue'
+	 *     );
+	 *
+	 *     // In test case
+	 *     $config = $this->mock_config_values(array(
+	 *         'foo' => array(
+	 *             'bar' => 'testvalue'
+	 *         )
+	 *     );
+	 *
+	 *     print_r($config->load('foo')->getArrayCopy());
+	 *
+	 *     //
+	 *     // Array
+	 *     // (
+	 *     //     [bar] => testvalue
+	 *     //     [foo] => foovalue
+	 *     // )
+	 *
+	 *
+	 * @param array $grouped_values array of config values to explicitly set
+	 *
+	 * @return PHPUnit_Framework_MockObject_MockObject the stubbed Kohana::$config replacement
+	 */
+	protected function mock_config_values(array $grouped_values)
+	{
+		// Create a mock Config instance
+		$mock_config = $this->getMock('Config', array(), array(), '', FALSE, FALSE);
+
+		// Build an array of config groups to return from the mock Config
+		$config_groups = array();
+		foreach ($grouped_values as $group => $values)
+		{
+			// Get default config for the group from the config loader
+			$original_config = Kohana::$config->load($group)->as_array();
+
+			// Merge with the provided values
+			$new_config = Arr::merge($original_config, $values);
+
+			// Create a new Config_Group and map as a return value for the stub
+			$config_groups[] = array($group, new Config_Group($mock_config, $group, $new_config));
+		}
+
+		// Configure the mocked config load method to return the specified groups
+		$mock_config->expects($this->any())
+		        ->method('load')
+		        ->will($this->returnValueMap($config_groups));
+		return $mock_config;
+	}
+
 }

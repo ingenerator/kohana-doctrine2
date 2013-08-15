@@ -10,5 +10,11 @@
  */
 return array(
 	// Path to the composer autoloader - may need to be changed in a non-standard directory structure
-	'composer_autoloader' => APPPATH.'../vendor/autoload.php'
+	'composer_autoloader' => APPPATH.'../vendor/autoload.php',
+
+	// Default proxy class directory
+	'proxy_dir'           => APPPATH.'/classes/Proxies/Model',
+
+	// Default proxy class namespace
+	'proxy_namespace'     => 'Proxies/Model',
 );
