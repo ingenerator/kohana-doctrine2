@@ -46,9 +46,11 @@ class Doctrine_EMFactory {
 	 *     $factory = new Doctrine_EMFactory;
 	 *     $em = $factory->entity_manager();
 	 *
+	 * @param string $db_group the name of the Kohana database config group to get connection information from
+	 *
 	 * @return \Doctrine\ORM\EntityManager
 	 */
-	public function entity_manager()
+	public function entity_manager($db_group = 'default')
 	{
 		$config = $this->config->load('doctrine');
 
@@ -82,9 +84,48 @@ class Doctrine_EMFactory {
 		$orm_config->setMetadataCacheImpl($cache);
 		$orm_config->setQueryCacheImpl($cache);
 
-		// Create the Entity Manager
-		$em = EntityManager::create(array('driver'=>'pdo_mysql'), $orm_config);
+		// Create the Entity Manager with the database connection information
+		$em = EntityManager::create(
+			$this->get_connection_config($db_group),
+			$orm_config
+		);
 		return $em;
+	}
+
+	/**
+	 * Create the Doctrine DBAL connection options from the Kohana database configuration
+	 *
+	 * @param string $db_group Name of the database group to load connection information from
+	 *
+	 * @return array configuration data for Doctrine DBAL
+	 * @throws InvalidArgumentException if the Kohana database type has not been mapped to a Doctrine driver
+	 */
+	protected function get_connection_config($db_group)
+	{
+		// Load the database configuration for this group
+		$config = $this->config->load('database');
+		if ( ! isset($config[$db_group]))
+		{
+			throw new \InvalidArgumentException("Could not find a database config for the '$db_group' group");
+		}
+		$config = $config[$db_group];
+
+		// Map the Kohana db configuration to Doctrine driver and options
+		switch($config['type'])
+		{
+			case 'MySQL':
+				return array(
+					'driver'   => 'pdo_mysql',
+					'host'     => $config['connection']['hostname'],
+					'user'     => $config['connection']['username'],
+				    'password' => $config['connection']['password'],
+				    'dbname'   => $config['connection']['database'],
+				    'charset'  => $config['charset']
+				);
+
+			default:
+				throw new \InvalidArgumentException("Could not map database type '".$config['type']."' to a Doctrine driver");
+		}
 	}
 
 }

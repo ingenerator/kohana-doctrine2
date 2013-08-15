@@ -37,6 +37,7 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 	public function test_sets_proxy_details_from_config()
 	{
 		$config = $this->mock_config_values(array(
+			'database' => array(),
 			'doctrine' => array(
 				'proxy_dir'       => APPPATH.'classes/My/App/Proxies',
 				'proxy_namespace' => 'My/App/Proxies'
@@ -114,6 +115,83 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 
 		$this->assertInstanceOf('\Doctrine\Common\Cache\ApcCache', $em->getConfiguration()->getMetadataCacheImpl());
 		$this->assertInstanceOf('\Doctrine\Common\Cache\ApcCache', $em->getConfiguration()->getQueryCacheImpl());
+	}
+
+	/**
+	 * Provider for the test_configures_database_from_kohana_configuration tests
+	 *
+	 * @return array the test cases
+	 */
+	public function provider_database_config_groups()
+	{
+		return array(
+			array('default', 'my.db.host'),
+			array('remote', 'remote.db.host')
+		);
+	}
+
+	/**
+	 * Should use the Kohana database configuration for the entity manager so that the same config settings can be
+	 * shared between Doctrine and non-doctrine code.
+	 *
+ 	 * @param $group_name
+	 * @param $expect_host
+	 *
+	 * @dataProvider provider_database_config_groups
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_configures_database_from_kohana_configuration($group_name, $expect_host)
+	{
+		$config = $this->mock_config_values(array(
+			'doctrine' => array(),
+		    'database' => array(
+			    $group_name => array(
+				    'type' => 'MySQL',
+				    'connection' => array(
+					    'hostname' => $expect_host,
+					    'database' => 'doctrine2',
+					    'username' => 'testuser',
+					    'password' => 'testpassword',
+					    'persistent' => TRUE
+				    ),
+				    'charset' => 'utf8'
+			    )
+		    )
+		));
+
+		$factory = new Doctrine_EMFactory($config);
+		$em = $factory->entity_manager($group_name);
+		$connection = $em->getConnection();
+
+		$this->assertEquals($expect_host, $connection->getHost());
+		$this->assertEquals('doctrine2', $connection->getDatabase());
+		$this->assertEquals('testuser', $connection->getUsername());
+		$this->assertEquals('testpassword', $connection->getPassword());
+		// It's not possible to assert the character set
+	}
+
+	/**
+	 * For now, mapping all the Kohana driver types and options to Doctrine driver types and options is too much - so
+	 * just throw an exception if the type is other than MySQL
+	 *
+	 * @expectedException InvalidArgumentException
+	 * @covers Doctrine_EMFactory::entity_manager
+	 * @return void
+	 */
+	public function test_only_supports_mysql_for_now()
+	{
+		$config = $this->mock_config_values(array(
+			'doctrine' => array(),
+		    'database' => array(
+			    'default' => array(
+				    'type' => 'PDO'
+			    )
+		    )
+		));
+
+		$factory = new Doctrine_EMFactory($config);
+		$em = $factory->entity_manager();
 	}
 
 	/**
