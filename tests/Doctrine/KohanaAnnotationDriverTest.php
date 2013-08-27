@@ -52,6 +52,38 @@ class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
 	}
 
 	/**
+	 * By default Kohana uses underscores rather than namespaces to map to directory structure but we could be working
+	 * with external packages or with modules that use phpspec for specifications - phpspec does not support underscored
+	 * names.
+	 *
+	 * So the annotation driver needs to attempt to locate a class name from a path based on either underscores or
+	 * namespaces.
+	 *
+	 * This test pretty much demonstrates how broken PSR-0 is given it's supposed to make all this interoperable...
+	 */
+	public function test_get_all_class_names_returns_namespaced_entity_classes_if_present()
+	{
+		// Add the module with the namespaced class
+		$modules = Kohana::modules();
+		$modules['namespaced'] = realpath(__DIR__.'/../test_data/namespaced-module');
+		Kohana::modules($modules);
+
+		// Load the reader and list classes
+		$reader = new SimpleAnnotationReader();
+		$reader->addNamespace('Doctrine\ORM\Mapping');
+
+		$driver = new Doctrine_KohanaAnnotationDriver(
+			new CachedReader($reader, new ArrayCache()),
+			Kohana::include_paths()
+		);
+
+		// Ensure the namespaced class is present
+		$classes = $driver->getAllClassNames();
+		$this->assertContains('Model\Namespaced\Entity', $classes);
+		$this->assertContains('Model\Namespaced_UnderscoredEntity', $classes);
+	}
+
+	/**
 	 * @var array stores the active Kohana modules as they were before these tests
 	 */
 	public static $old_modules = array();

@@ -24,30 +24,77 @@ class Doctrine_KohanaAnnotationDriver extends AnnotationDriver {
 		// Get all files within the CFS as a flat array of relative => absolute path
 		$files = Arr::flatten(Kohana::list_files('classes/Model', $this->getPaths()));
 
-		// This will be used a lot!
-		$ext_length = strlen(EXT);
 		foreach ($files as $relative => $absolute)
 		{
-			// Skip files that don't end with the Kohana php file extension
-			if (substr($relative, -$ext_length) !== EXT)
-			{
-				continue;
-			}
-
-			// Strip the classes/ prefix and the extension
-			$file = substr($relative, 8, -$ext_length);
-
-			// Convert slashes to underscores to get to a class name
-			$class = str_replace(DIRECTORY_SEPARATOR, '_', $file);
-
-			// Check if this class exists (allow autoloading)
-			if (class_exists($class) AND ! $this->isTransient($class))
+			$class = $this->fileToValidClassname($relative, $absolute);
+			if ($class AND  ! $this->isTransient($class))
 			{
 				$classes[] = $class;
 			}
 		}
 
 		return $classes;
+	}
+
+	/**
+	 * Locate the name of a class defined in a file - bearing in mind that PSR0 allows the directory separator to mean
+	 * either or both an underscore or a namespace. So we have to try with underscores (most common in a Kohana
+	 * project), then with namespaces, and then with every combination in between (rare, but possible). Fortunately this
+	 * code only really runs during generating schema etc rather than on web requests especially once caching is in
+	 * place.
+	 *
+	 * It's still pretty insane.
+	 *
+	 * @param string $relative relative CFS path to the file from classes/
+	 * @param string $absolute absolute path to the file
+	 *
+	 * @return string name of a class if one exists, or NULL if we couldn't make this filename into a class name
+	 */
+	protected function fileToValidClassname($relative, $absolute)
+	{
+		$ext_length = strlen(EXT);
+
+		// Skip files that don't end with the Kohana php file extension
+		if (substr($relative, -$ext_length) !== EXT)
+		{
+			return NULL;
+		}
+
+		// Strip the classes/ prefix and the extension, then split into directory parts
+		$file = substr($relative, 8, -$ext_length);
+		$name_parts = explode(DIRECTORY_SEPARATOR, $file);
+
+		// Ensure the file has been included so we don't have to run autoloader cycles
+		require_once($absolute);
+
+		// Try underscored first - most likely
+		$class = implode('_', $name_parts);
+		if (class_exists($class, FALSE))
+		{
+			return $class;
+		}
+
+		// Try namespaced as second guess
+		$class = implode('\\', $name_parts);
+		if (class_exists($class, FALSE))
+		{
+			return $class;
+		}
+
+		// It could be a mix of both namespace and underscores
+		$namespace = array();
+		while ($name_parts)
+		{
+			$namespace[] = array_shift($name_parts);
+			$class = implode('\\', $namespace).'\\'.implode('_', $name_parts);
+			if (class_exists($class, FALSE))
+			{
+				return $class;
+			}
+		}
+
+		// No matches, return NULL
+		return NULL;
 	}
 
 }
