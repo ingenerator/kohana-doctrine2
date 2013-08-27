@@ -41,7 +41,7 @@ class Doctrine_KohanaAnnotationDriver extends AnnotationDriver {
 			$class = str_replace(DIRECTORY_SEPARATOR, '_', $file);
 
 			// Check if this class exists (allow autoloading)
-			if (class_exists($class))
+			if (class_exists($class) AND ! $this->isTransient($class))
 			{
 				$classes[] = $class;
 			}

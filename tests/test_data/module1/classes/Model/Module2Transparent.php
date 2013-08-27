@@ -6,4 +6,11 @@
  * @copyright 2013 inGenerator Ltd
  * @licence   BSD
  */
+
+/**
+ * Class Model_Module2Transparent
+ *
+ * @Entity
+ * @Table(name="transparent")
+ */
 class Model_Module2Transparent extends Vendor_Module2Transparent {}

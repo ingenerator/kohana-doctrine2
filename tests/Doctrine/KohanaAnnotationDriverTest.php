@@ -8,6 +8,7 @@
  */
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\CachedReader;
+use Doctrine\Common\Annotations\SimpleAnnotationReader;
 use Doctrine\Common\Cache\ArrayCache;
 
 /**
@@ -24,13 +25,18 @@ class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
 	 * result in duplicate class definitions. The Kohana driver overrides the class loader to list only active classes
 	 * found within the CFS.
 	 *
+	 * Classes within the model path that are not tagged as Doctrine entities will be skipped.
+	 *
 	 * @return void
 	 * @covers Doctrine_KohanaAnnotationDriver::getAllClassNames
 	 */
-	public function test_get_all_class_names_returns_cfs_classes()
+	public function test_get_all_class_names_returns_cfs_classes_with_entity_tags()
 	{
+		$reader = new SimpleAnnotationReader();
+		$reader->addNamespace('Doctrine\ORM\Mapping');
+
 		$driver = new Doctrine_KohanaAnnotationDriver(
-			new CachedReader(new AnnotationReader(), new ArrayCache()),
+			new CachedReader($reader, new ArrayCache()),
 			Kohana::include_paths()
 		);
 

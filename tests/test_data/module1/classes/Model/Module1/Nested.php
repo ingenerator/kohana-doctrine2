@@ -6,6 +6,13 @@
  * @copyright 2013 inGenerator Ltd
  * @licence   BSD
  */
+
+/**
+ * Class Model_Module1_Nested
+ *
+ * @Entity
+ * @Table(name="nested")
+ */
 class Model_Module1_Nested {
 
 }

@@ -6,6 +6,13 @@
  * @copyright 2013 inGenerator Ltd
  * @licence   BSD
  */
+
+/**
+ * Class Vendor_Module2Transparent
+ *
+ * @Entity
+ * @Table(name="vendor_transparent")
+ */
 abstract class Vendor_Module2Transparent {
 
 }

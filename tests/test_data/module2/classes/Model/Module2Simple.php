@@ -6,6 +6,13 @@
  * @copyright 2013 inGenerator Ltd
  * @licence   BSD
  */
+
+/**
+ * Class Model_Module2Simple
+ *
+ * @Entity
+ * @Table(name="simple")
+ */
 class Model_Module2Simple {
 
 }
