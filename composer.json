@@ -18,16 +18,20 @@
   },
   "require": {
     "composer/installers":      "~1.0",
-    "kohana/core":              "dev-ingenerator-master",
+    "kohana/core":              "3.3.*",
     "doctrine/orm":             "2.3.*@stable",
     "php":                      ">=5.3.3"
   },
   "require-dev": {
     "ingenerator/koharness": "dev-master",
-    "kohana/unittest":       "dev-ingenerator-master"
+    "kohana/unittest":       "3.3.*"
+  },
+  "minimum-stability": "dev",
+  "config": {
+    "preferred-install" : "dist"
   },
   "repositories": [
-    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-core"},
-    {"type": "vcs", "url": "https://github.com/ingenerator/kohana-unittest"}
+    {"type": "vcs", "url": "https://github.com/kohana/core"},
+    {"type": "vcs", "url": "https://github.com/kohana/unittest"}
   ]
 }
