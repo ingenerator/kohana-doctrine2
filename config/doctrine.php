@@ -16,5 +16,5 @@ return array(
 	'proxy_dir'           => APPPATH.'/classes/Proxies/Model',
 
 	// Default proxy class namespace
-	'proxy_namespace'     => 'Proxies/Model',
+	'proxy_namespace'     => 'Proxies\Model',
 );
