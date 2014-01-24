@@ -83,6 +83,30 @@ class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
 		$this->assertContains('Model\Namespaced_UnderscoredEntity', $classes);
 	}
 
+	public function test_get_all_class_names_considers_class_paths_from_config()
+	{
+		Kohana::$config->load('doctrine')->set(
+			'entity_paths',
+			array('Some/Entity/Path' => TRUE, 'Other/Entities' => TRUE)
+		);
+
+		$reader = new SimpleAnnotationReader();
+		$reader->addNamespace('Doctrine\ORM\Mapping');
+
+		$driver = new Doctrine_KohanaAnnotationDriver(
+			new CachedReader($reader, new ArrayCache()),
+			Kohana::include_paths()
+		);
+
+		$this->assertEquals(
+		     array(
+			     'Some_Entity_Path_Entity',
+		         'Other_Entities_Entity'
+		     ),
+		     $driver->getAllClassNames()
+		);
+	}
+
 	/**
 	 * @var array stores the active Kohana modules as they were before these tests
 	 */

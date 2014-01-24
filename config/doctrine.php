@@ -12,6 +12,9 @@ return array(
 	// Path to the composer vendor directory - may need to be changed in a non-standard directory structure
 	'composer_vendor_path' => APPPATH.'../vendor/',
 
+	// Paths (under /classes) to search for entity files
+	'entity_paths'         => array('Model' => TRUE),
+
 	// Default proxy class directory
 	'proxy_dir'           => APPPATH.'/classes/Proxies/Model',
 

@@ -20,11 +20,7 @@ class Doctrine_KohanaAnnotationDriver extends AnnotationDriver {
 	public function getAllClassNames()
 	{
 		$classes = array();
-
-		// Get all files within the CFS as a flat array of relative => absolute path
-		$files = Arr::flatten(Kohana::list_files('classes/Model', $this->getPaths()));
-
-		foreach ($files as $relative => $absolute)
+		foreach ($this->get_cfs_entity_files() as $relative => $absolute)
 		{
 			$class = $this->fileToValidClassname($relative, $absolute);
 			if ($class AND  ! $this->isTransient($class))
@@ -95,6 +91,22 @@ class Doctrine_KohanaAnnotationDriver extends AnnotationDriver {
 
 		// No matches, return NULL
 		return NULL;
+	}
+
+	/**
+	 * @return array
+	 */
+	protected function get_cfs_entity_files()
+	{
+		$files = array();
+		foreach (Kohana::$config->load('doctrine.entity_paths') as $path => $should_search)
+		{
+			if ($should_search)
+			{
+				$files = $files + Kohana::list_files('classes/'.$path, $this->getPaths());
+			}
+		};
+		return Arr::flatten($files);
 	}
 
 }
