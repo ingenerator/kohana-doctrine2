@@ -4,6 +4,7 @@ use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
 use Doctrine\Common\Cache\ApcCache;
 use Doctrine\Common\Cache\ArrayCache;
+use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 
@@ -92,6 +93,9 @@ class Doctrine_EMFactory {
 			$this->get_connection_config($db_group),
 			$orm_config
 		);
+
+		$this->register_custom_types($config);
+
 		return $em;
 	}
 
@@ -128,6 +132,26 @@ class Doctrine_EMFactory {
 
 			default:
 				throw new \InvalidArgumentException("Could not map database type '".$config['type']."' to a Doctrine driver");
+		}
+	}
+
+	/**
+	 * Register any custom doctrine type handlers. Configure in the doctrine config like:
+	 *
+	 *     return array(
+	 *         'custom_types' => array(
+	 *             'money' => 'My\Money\TypeClass'
+	 *         )
+	 *     );
+	 *
+	 * @link  http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html
+	 * @param array $config
+	 */
+	protected function register_custom_types($config)
+	{
+		foreach (Arr::get($config, 'custom_types', array()) as $name => $className)
+		{
+			Type::addType($name, $className);
 		}
 	}
 

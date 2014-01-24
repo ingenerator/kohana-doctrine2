@@ -6,6 +6,8 @@
  * @copyright 2013 inGenerator Ltd
  * @licence   BSD
  */
+use Doctrine\DBAL\Platforms\AbstractPlatform;
+use Doctrine\DBAL\Types\Type;
 
 /**
  * Tests the behaviour of the Doctrine_EMFactory
@@ -223,6 +225,23 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 		$this->assertTrue(class_exists('\Doctrine\ORM\Mapping\Entity', FALSE));
 	}
 
+	public function test_registers_custom_types_from_config()
+	{
+		$config = $this->mock_config_values(array(
+			'doctrine' => array(
+				'custom_types' => array(
+					'foo' => 'FooType'
+				)
+			),
+		    'database' => array()
+		));
+
+		$factory = new Doctrine_EMFactory($config);
+		$em = $factory->entity_manager();
+
+		$this->assertInstanceOf('FooType', Type::getType('foo'));
+	}
+
 	/**
 	 * Gets a stub Config object with at least the specified values. The provided values are merged with the existing
 	 * configuration for each group to improve clarity of tests which only have to specify config values relevant to
@@ -281,6 +300,33 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 		        ->method('load')
 		        ->will($this->returnValueMap($config_groups));
 		return $mock_config;
+	}
+
+}
+
+
+class FooType extends Type
+{
+	/**
+	 * Gets the SQL declaration snippet for a field of this type.
+	 *
+	 * @param array            $fieldDeclaration The field declaration.
+	 * @param AbstractPlatform $platform         The currently used database platform.
+	 */
+	public function getSQLDeclaration(array $fieldDeclaration, AbstractPlatform $platform)
+	{
+		// TODO: Implement getSQLDeclaration() method.
+	}
+
+	/**
+	 * Gets the name of this type.
+	 *
+	 * @return string
+	 * @todo Needed?
+	 */
+	public function getName()
+	{
+		// TODO: Implement getName() method.
 	}
 
 }
