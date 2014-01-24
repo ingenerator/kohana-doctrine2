@@ -237,7 +237,25 @@ class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
 		));
 
 		$factory = new Doctrine_EMFactory($config);
-		$em = $factory->entity_manager();
+		$factory->entity_manager();
+
+		$this->assertInstanceOf('FooType', Type::getType('foo'));
+	}
+
+	public function test_does_not_register_types_that_are_already_registered_on_subsequent_em_calls()
+	{
+		$config = $this->mock_config_values(array(
+            'doctrine' => array(
+				'custom_types' => array(
+					'foo' => 'FooType'
+				)
+			),
+			'database' => array()
+		));
+
+		$factory = new Doctrine_EMFactory($config);
+		$factory->entity_manager();
+		$factory->entity_manager();
 
 		$this->assertInstanceOf('FooType', Type::getType('foo'));
 	}

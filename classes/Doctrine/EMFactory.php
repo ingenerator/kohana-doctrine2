@@ -151,7 +151,10 @@ class Doctrine_EMFactory {
 	{
 		foreach (Arr::get($config, 'custom_types', array()) as $name => $className)
 		{
-			Type::addType($name, $className);
+			if ( ! Type::hasType($name))
+			{
+				Type::addType($name, $className);
+			}
 		}
 	}
 
