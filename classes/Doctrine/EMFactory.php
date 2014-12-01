@@ -1,4 +1,5 @@
 <?php
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
@@ -168,13 +169,23 @@ class Doctrine_EMFactory {
 	 */
 	protected function create_annotation_driver()
 	{
+		$config = $this->config->load('doctrine');
+
 		// Register the Doctrine annotations
-		$vendor_path = $this->config->load('doctrine')->get('composer_vendor_path');
+		$vendor_path = $config->get('composer_vendor_path');
 		AnnotationRegistry::registerFile($vendor_path.'doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
 
-		// Register the ORM Annotations in the AnnotationReader
-		$reader = new SimpleAnnotationReader();
-		$reader->addNamespace('Doctrine\ORM\Mapping');
+		if ($config->get('use_simple_annotation_reader'))
+		{
+			// Register the ORM Annotations in the AnnotationReader
+			$reader = new SimpleAnnotationReader();
+			$reader->addNamespace('Doctrine\ORM\Mapping');
+		}
+		else
+		{
+			$reader = new AnnotationReader();
+		}
+
 		$cachedReader = new CachedReader($reader, new ArrayCache());
 
 		return new Doctrine_KohanaAnnotationDriver($cachedReader, Kohana::include_paths());
