@@ -19,7 +19,7 @@
   "require": {
     "composer/installers":      "~1.0",
     "kohana/core":              "3.3.*",
-    "doctrine/orm":             "2.3.*@stable",
+    "doctrine/orm":             "~2.4",
     "php":                      ">=5.3.3"
   },
   "require-dev": {
