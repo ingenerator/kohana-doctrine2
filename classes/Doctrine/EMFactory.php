@@ -8,6 +8,7 @@ use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Mapping\UnderscoreNamingStrategy;
 
 /**
  *  Creates an instance of the Doctrine Entity Manager with the appropriate configuration
@@ -72,6 +73,12 @@ class Doctrine_EMFactory {
 		// Configure the proxy directory and namespace
 		$orm_config->setProxyDir($config['proxy_dir']);
 		$orm_config->setProxyNamespace($config['proxy_namespace']);
+
+		if ($config->get('use_underscore_naming_strategy'))
+		{
+			$naming_strategy = new UnderscoreNamingStrategy($config->get('case_underscore_naming_strategy'));
+			$orm_config->setNamingStrategy($naming_strategy);
+		}
 
 		// Configure environment-specific options
 		if ($this->environment === Kohana::DEVELOPMENT)

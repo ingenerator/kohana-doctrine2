@@ -15,6 +15,10 @@ return array(
 	// Use the simple annotation reader or not
 	'use_simple_annotation_reader' => TRUE,
 
+	// Use underscore for the database table and columns
+	'use_underscore_naming_strategy' => FALSE,
+	'case_underscore_naming_strategy' => CASE_LOWER,
+
 	// Any custom types to register when the entity manager is created - as the name and the fully qualified class
 	// @link http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html
 	'custom_types'         => array(),
