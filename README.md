@@ -13,21 +13,41 @@ In particular:
 
 ## Installing the basic library
 
-Include in your composer.json:
+This package has the `kohana-module` type which means by default composer will install it in
+`{PATH_TO_COMPOSER_JSON}/modules/ingenerator/kohana-doctrine2`. The use of an explicit 
+`modules` directory is now deprecated in Kohana - we recommend all composer packages should
+be installed in `/vendor`.
+
+You can do this by adding the following to your composer.json:
 
 ```json
-{
-	"require": {
-		"ingenerator/kohana-doctrine2" : "dev-master"
-	}
-}
+    "extra": {
+        "installer-paths": {
+            "vendor/{$vendor}/{$name}": ["type:kohana-module"]
+        }
+    }
 ```
 
-Run composer to install the module and the external dependencies into your project with `composer install`.
+You can obviously specify any path that suits you, and/or specify a custom path for just 
+this module. See the [composer/installers documentation](https://github.com/composer/installers#custom-install-paths)
+for more info.
 
-You should see this module in your modules directory, with Doctrine2 and its dependencies installed into your
-vendor directory in the root of your project. You should ensure your .gitignore file excludes libraries installed
-to vendor with Composer.
+Then run `composer require ingenerator/kohana-doctrine2:dev-master` to add the package to your composer.json and 
+install it, together with doctrine2 and its dependencies. You should see them all appear in your configured
+vendor directories.
+
+Finally, you need to enable the module in your `bootstrap.php`:
+
+```php
+
+Kohana::modules([
+  //... existing modules
+  'kohana-doctrine2' => BASEDIR.'vendor/ingenerator/kohana-doctrine2' 
+  // or whatever the path to the module is. Note BASEDIR is not a stock kohana constant.
+]);  
+```
+
+You should ensure your .gitignore file excludes directories containing Composer packages.
 
 ## Configuration
 
