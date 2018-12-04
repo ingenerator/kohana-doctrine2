@@ -8,7 +8,7 @@ php:
 # Only build main branches : feature branches will be covered by the PR builder
 branches:
   only:
-    - /^[0-9\.]+\.x$/
+    - /^master|[0-9\.]+\.x$/
 
 cache:
   directories:
