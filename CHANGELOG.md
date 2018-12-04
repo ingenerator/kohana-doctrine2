@@ -1,5 +1,7 @@
 ### Unreleased
 
+* Remove factory support for anything other than the simple annotation reader - you'll be able to inject own reader in
+  DI container.
 * Remove factory support for the use_underscore_naming option - you'll be able to inject your own naming strategies in
   the DI container.
 * Remove the KohanaAnnotationDriver - we no longer support automagically loading entities from the CFS

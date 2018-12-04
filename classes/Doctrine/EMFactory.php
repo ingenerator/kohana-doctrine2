@@ -176,16 +176,9 @@ class Doctrine_EMFactory {
 		$vendor_path = $config->get('composer_vendor_path');
 		AnnotationRegistry::registerFile($vendor_path.'doctrine/orm/lib/Doctrine/ORM/Mapping/Driver/DoctrineAnnotations.php');
 
-		if ($config->get('use_simple_annotation_reader'))
-		{
-			// Register the ORM Annotations in the AnnotationReader
-			$reader = new SimpleAnnotationReader();
-			$reader->addNamespace('Doctrine\ORM\Mapping');
-		}
-		else
-		{
-			$reader = new AnnotationReader();
-		}
+        // Register the ORM Annotations in the AnnotationReader
+        $reader = new SimpleAnnotationReader();
+        $reader->addNamespace('Doctrine\ORM\Mapping');
 
 		$cachedReader = new CachedReader($reader, new ArrayCache());
 

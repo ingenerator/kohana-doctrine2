@@ -12,9 +12,6 @@ return array(
 	// Path to the composer vendor directory - may need to be changed in a non-standard directory structure
 	'composer_vendor_path' => APPPATH.'../vendor/',
 
-	// Use the simple annotation reader or not
-	'use_simple_annotation_reader' => TRUE,
-
 	// Any custom types to register when the entity manager is created - as the name and the fully qualified class
 	// @link http://docs.doctrine-project.org/projects/doctrine-dbal/en/latest/reference/types.html
 	'custom_types'         => array(),
