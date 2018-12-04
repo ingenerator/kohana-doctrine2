@@ -20,6 +20,11 @@
     "issues": "https://github.com/ingenerator/kohana-doctrine2/issues",
     "source": "https://github.com/ingenerator/kohana-doctrine2"
   },
+  "autoload": {
+    "psr-4": {
+      "Ingenerator\\KohanaDoctrine\\": "src/"
+    }
+  },
   "repositories": [
     {
       "type": "composer",

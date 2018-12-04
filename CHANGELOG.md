@@ -1,5 +1,6 @@
 ### Unreleased
 
+* Add new ExplicitClasslistAnnotationDriver for listing pre-configured entity class types
 * Remove old Doctrine_EMFactory - will be replaced with new dependency factories and DI container definitions
 * Remove factory support for anything other than the simple annotation reader - you'll be able to inject own reader in
   DI container.
