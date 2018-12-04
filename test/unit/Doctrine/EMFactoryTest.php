@@ -55,30 +55,6 @@ class Doctrine_EMFactoryTest extends \PHPUnit\Framework\TestCase  {
 	}
 
 	/**
-	 * The naming strategy for tables and methods should be configurable
-	 *
-	 * @covers Doctrine_EMFactory::entity_manager
-	 * @return void
-	 */
-	public function test_sets_naming_strategy_from_config()
-	{
-		$config = $this->mock_config_values(array(
-			'database' => array(),
-			'doctrine' => array(
-				'use_underscore_naming_strategy' => TRUE,
-				'case_underscore_naming_strategy' => CASE_LOWER,
-			)
-		));
-
-		$factory = new Doctrine_EMFactory($config);
-		$em = $factory->entity_manager();
-		$config = $em->getConfiguration();
-
-		$this->assertInstanceOf('Doctrine\ORM\Mapping\UnderscoreNamingStrategy', $config->getNamingStrategy());
-		$this->assertEquals(CASE_LOWER, $config->getNamingStrategy()->getCase());
-	}
-
-	/**
 	 * Data provider for test_sets_autogenerate_proxies_from_environment
 	 *
 	 * @return array the test cases

@@ -74,12 +74,6 @@ class Doctrine_EMFactory {
 		$orm_config->setProxyDir($config['proxy_dir']);
 		$orm_config->setProxyNamespace($config['proxy_namespace']);
 
-		if ($config->get('use_underscore_naming_strategy'))
-		{
-			$naming_strategy = new UnderscoreNamingStrategy($config->get('case_underscore_naming_strategy'));
-			$orm_config->setNamingStrategy($naming_strategy);
-		}
-
 		// Configure environment-specific options
 		if ($this->environment === Kohana::DEVELOPMENT)
 		{

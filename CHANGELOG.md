@@ -1,5 +1,7 @@
 ### Unreleased
 
+* Remove factory support for the use_underscore_naming option - you'll be able to inject your own naming strategies in
+  the DI container.
 * Remove the KohanaAnnotationDriver - we no longer support automagically loading entities from the CFS
 * Require ingenerator fork of kohana, use phpunit direct instead of kohana/unittest, update config of koharness and
   test paths.
