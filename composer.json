@@ -1,6 +1,6 @@
 {
   "name": "ingenerator/kohana-doctrine2",
-  "type": "kohana-module",
+  "type": "library",
   "description": "Opinionated wrapper for the doctrine ORM",
   "homepage": "https://github.com/ingenerator/kohana-doctrine2",
   "license": "BSD-3-Clause",
