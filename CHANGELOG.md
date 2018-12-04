@@ -1,5 +1,6 @@
 ### Unreleased
 
+* Remove the KohanaAnnotationDriver - we no longer support automagically loading entities from the CFS
 * Require ingenerator fork of kohana, use phpunit direct instead of kohana/unittest, update config of koharness and
   test paths.
 

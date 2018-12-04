@@ -171,7 +171,7 @@ class Doctrine_EMFactory {
 	 * handles registering the Doctrine annotations in the Annotation registry - which would normally be handled by
 	 * Doctrine\ORM\Configuration::newDefaultAnnotationDriver.
 	 *
-	 * @return Doctrine_KohanaAnnotationDriver
+	 * @return \Doctrine\ORM\Mapping\Driver\AnnotationDriver
 	 * @see Doctrine\ORM\Configuration::newDefaultAnnotationDriver
 	 */
 	protected function create_annotation_driver()
@@ -195,7 +195,7 @@ class Doctrine_EMFactory {
 
 		$cachedReader = new CachedReader($reader, new ArrayCache());
 
-		return new Doctrine_KohanaAnnotationDriver($cachedReader, Kohana::include_paths());
+		return new \Doctrine\ORM\Mapping\Driver\AnnotationDriver($cachedReader, Kohana::include_paths());
 	}
 
 }
