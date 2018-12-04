@@ -1,7 +1,7 @@
 kohana-doctrine2 - integrates [Doctrine 2 ORM](http://www.doctrine-project.org/projects/orm.html) with Kohana
 =============================================================================================================
 
-[![Build Status](https://travis-ci.org/ingenerator/kohana-doctrine2.png?branch=master)](https://travis-ci.org/ingenerator/kohana-doctrine2)
+[![Build Status](https://travis-ci.org/ingenerator/kohana-doctrine2.png?branch=0.2.x)](https://travis-ci.org/ingenerator/kohana-doctrine2)
 
 kohana-doctrine2 adds the Doctrine2 ORM library to a Kohana project, aiming to make the most of the Kohana framework
 (including the cascading file system and autoloader) while maintaining clean application and module code. This module is
