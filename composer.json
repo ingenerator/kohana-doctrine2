@@ -1,34 +1,44 @@
 {
-  "name":        "ingenerator/kohana-doctrine2",
-  "type":        "kohana-module",
-  "description": "Integrates the Doctrine2 ORM with Kohana 3.3",
-  "homepage":    "https://github.com/ingenerator/kohana-doctrine2",
-  "license":     "BSD-3-Clause",
-  "keywords":    ["kohana", "doctrine", "orm"],
+  "name": "ingenerator/kohana-doctrine2",
+  "type": "kohana-module",
+  "description": "Opinionated wrapper for the doctrine ORM",
+  "homepage": "https://github.com/ingenerator/kohana-doctrine2",
+  "license": "BSD-3-Clause",
+  "keywords": [
+    "kohana",
+    "doctrine",
+    "orm"
+  ],
   "authors": [
     {
-      "name":     "Andrew Coulton",
+      "name": "Andrew Coulton",
       "homepage": "https://github.com/acoulton",
-      "role":     "developer"
+      "role": "developer"
     }
   ],
   "support": {
-    "issues":   "https://github.com/ingenerator/kohana-doctrine2/issues",
-    "source":   "https://github.com/ingenerator/kohana-doctrine2"
+    "issues": "https://github.com/ingenerator/kohana-doctrine2/issues",
+    "source": "https://github.com/ingenerator/kohana-doctrine2"
   },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://php-packages.ingenerator.com"
+    }
+  ],
   "require": {
-    "composer/installers":      "~1.0",
-    "kohana/core":              "3.3.*",
-    "doctrine/orm":             "~2.4",
-    "php":                      "^5.5||^7.0"
+    "composer/installers": "~1.0",
+    "ingenerator/kohana-core": "^4.0",
+    "doctrine/orm": "^2.5",
+    "php": "^5.5||^7.0"
   },
   "require-dev": {
-    "ingenerator/koharness": "dev-master",
-    "kohana/unittest":       "3.3.*"
+    "kohana/koharness": "*@dev",
+    "phpunit/phpunit": "^4.8||^7.0"
   },
   "minimum-stability": "dev",
   "config": {
-    "preferred-install" : "dist"
+    "preferred-install": "dist"
   },
   "extra": {
     "branch-alias": {

@@ -16,7 +16,7 @@ use Doctrine\DBAL\Types\Type;
  * @group     doctrine
  * @group     doctrine.emfactory
  */
-class Doctrine_EMFactoryTest extends Kohana_Unittest_TestCase {
+class Doctrine_EMFactoryTest extends \PHPUnit\Framework\TestCase  {
 
 	/**
 	 * The factory should create an entity manager instance

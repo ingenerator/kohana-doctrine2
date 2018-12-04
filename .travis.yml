@@ -18,9 +18,8 @@ before_script:
   # Ensure composer is up to date and install dependencies
   - composer self-update
   - composer install --prefer-dist --no-interaction
-  # Generate the koharness Kohana default application
+
+
+script:
   - vendor/bin/koharness
-
-
-# Run the Doctrine tests against the koharnessed application in /tmp/koharness
-script: cd /tmp/koharness && vendor/bin/phpunit --bootstrap=modules/unittest/bootstrap.php --group=doctrine modules/unittest/tests.php
+  - vendor/bin/phpunit

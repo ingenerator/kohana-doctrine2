@@ -18,7 +18,7 @@ use Doctrine\Common\Cache\ArrayCache;
  * @group     doctrine
  * @group     doctrine.annotationdriver
  */
-class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
+class Doctrine_KohanaAnnotationDriverTest extends \PHPUnit\Framework\TestCase {
 
 	/**
 	 * The standard Doctrine Annotation driver will choke on the CFS because it requires each of the files, which will
@@ -65,7 +65,7 @@ class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
 	{
 		// Add the module with the namespaced class
 		$modules = Kohana::modules();
-		$modules['namespaced'] = realpath(__DIR__.'/../test_data/namespaced-module');
+		$modules['namespaced'] = realpath(__DIR__.'/../../test_data/namespaced-module');
 		Kohana::modules($modules);
 
 		// Load the reader and list classes
@@ -121,8 +121,8 @@ class Doctrine_KohanaAnnotationDriverTest extends Kohana_Unittest_TestCase {
 	{
 		self::$old_modules = Kohana::modules();
 		$modules = self::$old_modules;
-		$modules['module1'] = realpath(__DIR__.'/../test_data/module1');
-		$modules['module2'] = realpath(__DIR__.'/../test_data/module2');
+		$modules['module1'] = realpath(__DIR__.'/../../test_data/module1');
+		$modules['module2'] = realpath(__DIR__.'/../../test_data/module2');
 		Kohana::modules($modules);
 	}
 

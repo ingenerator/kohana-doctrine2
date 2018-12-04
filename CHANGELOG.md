@@ -1,5 +1,8 @@
 ### Unreleased
 
+* Require ingenerator fork of kohana, use phpunit direct instead of kohana/unittest, update config of koharness and
+  test paths.
+
 ## v0.1.1 (2018-12-04)
 
 * Fix travis build config, drop support for PHP < 5.5

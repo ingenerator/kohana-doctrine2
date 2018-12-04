@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<!-- Config file for PHPUnit automated tests -->
+<phpunit
+		bootstrap="test/bootstrap.php"
+		cacheTokens="false"
+		colors="true"
+		convertErrorsToExceptions="true"
+		convertNoticesToExceptions="true"
+		convertWarningsToExceptions="true"
+>
+	<testsuites>
+		<testsuite name="Unit">
+			<directory>test/unit</directory>
+		</testsuite>
+	</testsuites>
+</phpunit>
