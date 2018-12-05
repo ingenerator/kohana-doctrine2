@@ -1,5 +1,7 @@
 ### Unreleased
 
+* Add new ConnectionConfigProvider to parse Kohana database.php config and return doctrine array, including with
+  a NullPDO if there's no hostname.
 * Add new NullPDO that can be passed around to classes that need a PDO injected but don't need to do anything
   with it - e.g. to allow setup of the Doctrine build tools in an environment that can't actually speak to a DB
 * Switch package to generic library type rather than kohana module (so no need to override install path)
