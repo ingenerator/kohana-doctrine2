@@ -58,7 +58,8 @@ class NullPDOTest extends TestCase
         foreach ($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             $cases[$method->getName()] = [
                 $method->getName(),
-                array_fill(0, $method->getNumberOfParameters(), NULL),
+                // Reflection does some very strange things on 5.5 and reports some methods with less than 0 params!
+                array_fill(0, max($method->getNumberOfParameters(), 0), NULL),
             ];
         }
 
