@@ -1,5 +1,7 @@
 ### Unreleased
 
+* Add new NullPDO that can be passed around to classes that need a PDO injected but don't need to do anything
+  with it - e.g. to allow setup of the Doctrine build tools in an environment that can't actually speak to a DB
 * Switch package to generic library type rather than kohana module (so no need to override install path)
 * Add new ExplicitClasslistAnnotationDriver for listing pre-configured entity class types
 * Remove old Doctrine_EMFactory - will be replaced with new dependency factories and DI container definitions
