@@ -235,8 +235,8 @@ class DoctrineFactory
         $config  = array_merge(
             [
                 'auto_gen_proxies' => \Kohana::$environment === \Kohana::DEVELOPMENT,
-                'proxy_dir'        => APPPATH.'/classes/Proxies/Model',
-                'proxy_namespace'  => 'Proxies\Model',
+                'proxy_dir'        => APPPATH.'/DoctrineEntityProxy',
+                'proxy_namespace'  => 'DoctrineEntityProxy',
                 'custom_types'     => [],
             ],
             $config ?: []

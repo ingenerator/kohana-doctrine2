@@ -1,5 +1,6 @@
 ### Unreleased
 
+* Move default entity proxy namespace / path to APPPATH/DoctrineEntityProxy - not in the classes path at all
 * Switch to using autoloader directly to autoload doctrine annotations instead of having to find and register the
   annotations entrypoint file.
 * Add new mechanism for injecting event subscribers

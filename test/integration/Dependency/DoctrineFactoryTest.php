@@ -170,8 +170,8 @@ class DoctrineFactoryTest extends TestCase
                 [],
                 [
                     'autogenerate'    => AbstractProxyFactory::AUTOGENERATE_ALWAYS,
-                    'proxy_dir'       => APPPATH.'/classes/Proxies/Model',
-                    'proxy_namespace' => 'Proxies\Model',
+                    'proxy_dir'       => APPPATH.'/DoctrineEntityProxy',
+                    'proxy_namespace' => 'DoctrineEntityProxy',
                 ],
             ],
             [
@@ -179,8 +179,8 @@ class DoctrineFactoryTest extends TestCase
                 [],
                 [
                     'autogenerate'    => AbstractProxyFactory::AUTOGENERATE_NEVER,
-                    'proxy_dir'       => APPPATH.'/classes/Proxies/Model',
-                    'proxy_namespace' => 'Proxies\Model',
+                    'proxy_dir'       => APPPATH.'/DoctrineEntityProxy',
+                    'proxy_namespace' => 'DoctrineEntityProxy',
                 ],
             ],
             [
