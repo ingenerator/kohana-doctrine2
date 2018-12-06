@@ -1,5 +1,7 @@
 ### Unreleased
 
+## v0.2.0 (2018-12-06)
+
 * Move default entity proxy namespace / path to APPPATH/DoctrineEntityProxy - not in the classes path at all
 * Switch to using autoloader directly to autoload doctrine annotations instead of having to find and register the
   annotations entrypoint file.
