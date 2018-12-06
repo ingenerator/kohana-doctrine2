@@ -20,9 +20,13 @@ class ConnectionConfigProvider
     protected $config;
 
     /**
-     * @param array $config e.g. the connection group from the database connection config
+     * 
+     * @param array $config e.g. the connection group from the database connection config.
+     *                      [NB] it is not expected to be valid for this to be empty at runtime, but allowing a null
+     *                      value allows us to create an instance in development / test environments without full
+     *                      config.
      */
-    public function __construct(array $config)
+    public function __construct(array $config = NULL)
     {
         $this->config = array_merge(
             [
@@ -35,7 +39,7 @@ class ConnectionConfigProvider
                 ],
                 'charset'    => 'utf8',
             ],
-            $config
+            $config ?: []
         );
     }
 

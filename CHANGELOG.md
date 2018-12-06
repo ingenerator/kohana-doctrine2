@@ -1,5 +1,11 @@
 ### Unreleased
 
+* Switch to using autoloader directly to autoload doctrine annotations instead of having to find and register the
+  annotations entrypoint file.
+* Add new mechanism for injecting event subscribers
+* Add new factories and kohana-dependencies service definitions for all services. Switch to using 
+  factories with inbuilt default config so that this package does not have to be registered as a 
+  kohana module in its own right.
 * Add new ConnectionConfigProvider to parse Kohana database.php config and return doctrine array, including with
   a NullPDO if there's no hostname.
 * Add new NullPDO that can be passed around to classes that need a PDO injected but don't need to do anything

@@ -20,5 +20,6 @@ Kohana_Exception::$error_view = 'text-error';
 // Autoload mocks and test-support helpers that should not autoload in the main app
 $mock_loader = new \Composer\Autoload\ClassLoader;
 $mock_loader->addPsr4('test\\mock\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/mock/']);
+$mock_loader->addPsr4('test\\integration\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/integration/']);
 $mock_loader->addPsr4('test\\unit\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/unit/']);
 $mock_loader->register();

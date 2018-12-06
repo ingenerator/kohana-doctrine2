@@ -7,8 +7,6 @@
  * @link      https://github.com/ingenerator/koharness
  */
 return [
-    'modules' => [
-        'kohana-doctrine2' => __DIR__,
-    ],
+    'modules' => [],
     'syspath' => __DIR__.'/vendor/ingenerator/kohana-core',
 ];

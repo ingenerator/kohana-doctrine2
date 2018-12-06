@@ -35,13 +35,14 @@
     "composer/installers": "~1.0",
     "ingenerator/kohana-core": "^4.0",
     "doctrine/orm": "^2.5",
-    "php": "^5.5||^7.0"
+    "php": "^5.5||^7.0",
+    "ingenerator/kohana-dependencies": "^0.9"
   },
   "require-dev": {
     "kohana/koharness": "*@dev",
     "phpunit/phpunit": "^4.8||^7.0"
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "config": {
     "preferred-install": "dist"
   },
