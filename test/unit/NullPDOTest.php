@@ -56,11 +56,10 @@ class NullPDOTest extends TestCase
         $cases = [];
         $refl  = new \ReflectionClass(\PDO::class);
         foreach ($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
-            $cases[$method->getName()] = [
-                $method->getName(),
-                // Reflection does some very strange things on 5.5 and reports some methods with less than 0 params!
-                array_fill(0, max($method->getNumberOfParameters(), 0), NULL),
-            ];
+            $param_count = $method->getNumberOfParameters();
+            $args        = $param_count ? array_fill(0, $param_count, NULL) : [];
+
+            $cases[$method->getName()] = [$method->getName(), $args];
         }
 
         // For some reason ->query gives the wrong parameter info in Reflection
