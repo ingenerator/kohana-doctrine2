@@ -57,7 +57,7 @@ class NullPDOTest extends TestCase
         $refl  = new \ReflectionClass(\PDO::class);
         foreach ($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
             $param_count = $method->getNumberOfParameters();
-            $args        = $param_count ? array_fill(0, $param_count, NULL) : [];
+            $args        = $param_count ? \array_fill(0, $param_count, NULL) : [];
 
             $cases[$method->getName()] = [$method->getName(), $args];
         }
@@ -73,7 +73,7 @@ class NullPDOTest extends TestCase
         unset($cases['getAvailableDrivers']);
         unset($cases['setAttribute']);
 
-        return array_values($cases);
+        return \array_values($cases);
     }
 
     /**
@@ -83,7 +83,7 @@ class NullPDOTest extends TestCase
     public function test_it_throws_database_not_configured_on_any_call_to_pdo_method($method, $args)
     {
         $subject = $this->newSubject();
-        call_user_func_array([$subject, $method], $args);
+        \call_user_func_array([$subject, $method], $args);
     }
 
     protected function newSubject()

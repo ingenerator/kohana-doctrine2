@@ -168,10 +168,10 @@ class DoctrineFactory
         ];
 
         foreach ($subscribers as $class => $class_def) {
-            $key = str_replace('\\', '-', strtolower($class));
+            $key = \str_replace('\\', '-', \strtolower($class));
 
             $defs['event_manager']['_settings']['arguments'][] = "%doctrine.subscribers.$key%";
-            $defs['subscribers'][$key]['_settings']            = array_merge(['class' => $class], $class_def);
+            $defs['subscribers'][$key]['_settings']            = \array_merge(['class' => $class], $class_def);
         }
 
         return ['doctrine' => $defs];
@@ -232,7 +232,7 @@ class DoctrineFactory
         Cache $data_cache,
         array $config = NULL
     ) {
-        $config  = array_merge(
+        $config  = \array_merge(
             [
                 'auto_gen_proxies' => \Kohana::$environment === \Kohana::DEVELOPMENT,
                 'proxy_dir'        => APPPATH.'/DoctrineEntityProxy',
@@ -274,7 +274,7 @@ class DoctrineFactory
         $driver = $entityManager->getConnection()->getWrappedConnection();
         if ( ! $driver instanceof \PDO) {
             throw new \InvalidArgumentException(
-                'Expected Doctrine connection to be instance of '.\PDO::class.', got '.get_class($driver)
+                'Expected Doctrine connection to be instance of '.\PDO::class.', got '.\get_class($driver)
             );
         }
 

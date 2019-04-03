@@ -65,7 +65,7 @@ class Doctrine_KohanaAnnotationDriverTest extends \PHPUnit\Framework\TestCase {
 	{
 		// Add the module with the namespaced class
 		$modules = Kohana::modules();
-		$modules['namespaced'] = realpath(__DIR__.'/../../test_data/namespaced-module');
+		$modules['namespaced'] = \realpath(__DIR__.'/../../test_data/namespaced-module');
 		Kohana::modules($modules);
 
 		// Load the reader and list classes
@@ -121,8 +121,8 @@ class Doctrine_KohanaAnnotationDriverTest extends \PHPUnit\Framework\TestCase {
 	{
 		self::$old_modules = Kohana::modules();
 		$modules = self::$old_modules;
-		$modules['module1'] = realpath(__DIR__.'/../../test_data/module1');
-		$modules['module2'] = realpath(__DIR__.'/../../test_data/module2');
+		$modules['module1'] = \realpath(__DIR__.'/../../test_data/module1');
+		$modules['module2'] = \realpath(__DIR__.'/../../test_data/module2');
 		Kohana::modules($modules);
 	}
 

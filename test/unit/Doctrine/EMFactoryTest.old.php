@@ -222,7 +222,7 @@ class Doctrine_EMFactoryTest extends \PHPUnit\Framework\TestCase  {
 		$factory = new Doctrine_EMFactory();
 		$em = $factory->entity_manager();
 
-		$this->assertTrue(class_exists('\Doctrine\ORM\Mapping\Entity', FALSE));
+		$this->assertTrue(\class_exists('\Doctrine\ORM\Mapping\Entity', FALSE));
 	}
 
 	public function test_registers_custom_types_from_config()

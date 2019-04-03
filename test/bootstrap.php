@@ -9,7 +9,7 @@ require_once(__DIR__.'/../koharness_bootstrap.php');
 
 // Hacky workaround to show a simple text exception on fatal errors
 // Otherwise Kohana's shutdown function catches it and shows a huge HTML trace that's horrible to follow
-file_put_contents(
+\file_put_contents(
     APPPATH.'views/text-error.php',
     '<?php echo "\n\nUnhandled error: ".\Kohana_Exception::text($e)."\n";'
 );

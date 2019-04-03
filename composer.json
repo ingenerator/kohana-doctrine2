@@ -33,14 +33,14 @@
   ],
   "require": {
     "composer/installers": "~1.0",
-    "ingenerator/kohana-core": "^4.0",
+    "ingenerator/kohana-core": "^4.3",
     "doctrine/orm": "^2.5",
-    "php": "^5.5||^7.0",
+    "php": "^7.2",
     "ingenerator/kohana-dependencies": "^0.9"
   },
   "require-dev": {
     "kohana/koharness": "*@dev",
-    "phpunit/phpunit": "^4.8||^7.0"
+    "phpunit/phpunit": "^7.2"
   },
   "minimum-stability": "stable",
   "config": {

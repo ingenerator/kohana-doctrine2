@@ -1,8 +1,6 @@
 sudo: false
 language: php
 php:
-  - '5.5'
-  - '5.6'
   - '7.2'
 
 # Only build main branches : feature branches will be covered by the PR builder
@@ -19,7 +17,9 @@ before_script:
   - composer self-update
   - composer install --prefer-dist --no-interaction
 
-
 script:
   - vendor/bin/koharness
   - vendor/bin/phpunit
+
+notifications:
+  email: false

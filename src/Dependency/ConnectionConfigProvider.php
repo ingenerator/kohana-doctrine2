@@ -28,7 +28,7 @@ class ConnectionConfigProvider
      */
     public function __construct(array $config = NULL)
     {
-        $this->config = array_merge(
+        $this->config = \array_merge(
             [
                 'type'       => 'MySQL',
                 'connection' => [
