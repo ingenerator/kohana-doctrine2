@@ -1,5 +1,10 @@
 ### Unreleased
 
+## v1.0.0 (2019-04-03)
+
+* Drop php5 support
+* Run php-cs-fixer native_function_invocation fix to potentially improve performance
+
 ## v0.2.0 (2018-12-06)
 
 * Move default entity proxy namespace / path to APPPATH/DoctrineEntityProxy - not in the classes path at all
