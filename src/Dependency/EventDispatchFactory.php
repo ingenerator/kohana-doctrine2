@@ -17,7 +17,7 @@ class EventDispatchFactory
     public static function buildEventManagerWithSubscribers(EventSubscriber $subscriber = NULL)
     {
         $manager = new EventManager;
-        foreach (func_get_args() as $subscriber) {
+        foreach (\func_get_args() as $subscriber) {
             $manager->addEventSubscriber($subscriber);
         }
 

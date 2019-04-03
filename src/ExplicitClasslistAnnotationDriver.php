@@ -27,7 +27,7 @@ class ExplicitClasslistAnnotationDriver extends AnnotationDriver
     public function getAllClassNames()
     {
         foreach ($this->classNames as $class_name) {
-            if ( ! class_exists($class_name)) {
+            if ( ! \class_exists($class_name)) {
                 throw MappingException::nonExistingClass($class_name);
             }
         }

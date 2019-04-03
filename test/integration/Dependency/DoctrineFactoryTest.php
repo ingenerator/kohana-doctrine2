@@ -274,8 +274,8 @@ class DoctrineFactoryTest extends TestCase
         /** @var EntityManager $em */
         $listeners = $em->getEventManager()->getListeners(Events::prePersist);
         $this->assertCount(2, $listeners, 'Should have 2 listeners');
-        $this->assertInstanceOf(MySubscriber::class, array_shift($listeners));
-        $this->assertInstanceOf(MyOtherSubscriber::class, array_shift($listeners));
+        $this->assertInstanceOf(MySubscriber::class, \array_shift($listeners));
+        $this->assertInstanceOf(MyOtherSubscriber::class, \array_shift($listeners));
     }
 
     /**
