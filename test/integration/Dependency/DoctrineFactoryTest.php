@@ -62,15 +62,26 @@ class DoctrineFactoryTest extends TestCase
     /**
      * @dataProvider provider_expected_services
      */
-    public function test_it_can_configure_all_published_services($key, $expect_class, $expect_shared)
-    {
+    public function test_it_can_configure_all_published_services(
+        $key,
+        $expect_class,
+        $expect_shared
+    ) {
         $container = $this->newContainer(DoctrineFactory::definitions());
         $service   = $container->get($key);
         $this->assertInstanceOf($expect_class, $service);
         if ($expect_shared) {
-            $this->assertSame($service, $container->get($key), 'Container should provide same service');
+            $this->assertSame(
+                $service,
+                $container->get($key),
+                'Container should provide same service'
+            );
         } else {
-            $this->assertNotSame($service, $container->get($key), 'Container should provide different services');
+            $this->assertNotSame(
+                $service,
+                $container->get($key),
+                'Container should provide different services'
+            );
         }
     }
 
@@ -94,8 +105,16 @@ class DoctrineFactoryTest extends TestCase
         $this->assertInstanceOf($expect, $cache);
         $config = $container->get('doctrine.config.orm_config');
         /** @var Configuration $config */
-        $this->assertSame($cache, $config->getMetadataCacheImpl(), 'Should use compiler cache for metadata');
-        $this->assertSame($cache, $config->getQueryCacheImpl(), 'Should use compiler cache for parsed queries');
+        $this->assertSame(
+            $cache,
+            $config->getMetadataCacheImpl(),
+            'Should use compiler cache for metadata'
+        );
+        $this->assertSame(
+            $cache,
+            $config->getQueryCacheImpl(),
+            'Should use compiler cache for parsed queries'
+        );
     }
 
     public function provider_expected_data_cache()
@@ -117,8 +136,15 @@ class DoctrineFactoryTest extends TestCase
         $this->assertInstanceOf(ArrayCache::class, $cache);
         $config = $container->get('doctrine.config.orm_config');
         /** @var Configuration $config */
-        $this->assertSame($cache, $config->getResultCacheImpl(), 'Should use data cache for result caching');
-        $this->assertNull($config->getHydrationCacheImpl(), 'Should not assign hydration cache by default');
+        $this->assertSame(
+            $cache,
+            $config->getResultCacheImpl(),
+            'Should use data cache for result caching'
+        );
+        $this->assertNull(
+            $config->getHydrationCacheImpl(),
+            'Should not assign hydration cache by default'
+        );
     }
 
     public function test_it_attaches_database_config_from_kohana_config()
@@ -141,18 +167,22 @@ class DoctrineFactoryTest extends TestCase
         /** @var ConnectionConfigProvider $cfg */
         $this->assertSame(
             [
-                'driver'   => 'pdo_mysql',
-                'host'     => 'localhost',
-                'user'     => 'me',
-                'password' => 'secret',
-                'dbname'   => 'mydb',
-                'charset'  => 'utf8',
+                'driver'        => 'pdo_mysql',
+                'host'          => 'localhost',
+                'user'          => 'me',
+                'password'      => 'secret',
+                'dbname'        => 'mydb',
+                'charset'       => 'utf8',
+                'driverOptions' => [
+                    \PDO::ATTR_TIMEOUT => 5,
+                ],
             ],
             $cfg->getConnection()
         );
     }
 
-    public function test_it_loads_entity_classes_from_kohana_config_and_can_read_metadata_from_annotations()
+    public function test_it_loads_entity_classes_from_kohana_config_and_can_read_metadata_from_annotations(
+    )
     {
         $this->givenDoctrineConfig(['orm' => ['entity_classes' => [SomeEntity::class]]]);
         $container = $this->newContainer(DoctrineFactory::definitions());
@@ -204,8 +234,11 @@ class DoctrineFactoryTest extends TestCase
     /**
      * @dataProvider provider_proxy_generation
      */
-    public function test_it_configures_proxy_generation_from_defaults_or_from_config_overrides($env, $cfg, $expect)
-    {
+    public function test_it_configures_proxy_generation_from_defaults_or_from_config_overrides(
+        $env,
+        $cfg,
+        $expect
+    ) {
         \Kohana::$environment = $env;
         $this->givenDoctrineConfig($cfg);
         $container = $this->newContainer(DoctrineFactory::definitions());
@@ -233,7 +266,10 @@ class DoctrineFactoryTest extends TestCase
             ]
         );
         $container = $this->newContainer(DoctrineFactory::definitions());
-        $this->assertFalse(Type::hasType('giant_array'), 'Type should not be registered before config');
+        $this->assertFalse(
+            Type::hasType('giant_array'),
+            'Type should not be registered before config'
+        );
         $container->get('doctrine.config.orm_config');
         $this->assertTrue(Type::hasType('giant_array'), 'Type should be registered after config');
         $this->assertInstanceOf(GiantArrayType::class, Type::getType('giant_array'));

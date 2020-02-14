@@ -39,26 +39,45 @@ class ConnectionConfigProviderTest extends TestCase
         $this->assertArraySubset(['driver' => 'pdo_mysql', 'charset' => 'utf8'], $connection);
     }
 
-    public function test_it_parses_config_structure_to_doctrine_connection_config_if_host_configured()
+    public function test_it_has_sane_defaults_for_timeout()
     {
         $this->config = [
-            'type'       => 'MySQL',
             'connection' => [
                 'hostname' => 'localhost',
                 'database' => 'ourdatabase',
                 'username' => 'anyone',
                 'password' => 'anything',
             ],
-            'charset'    => 'cp1212',
+        ];
+        $connection   = $this->newSubject()->getConnection();
+        $this->assertSame(5, $connection['driverOptions'][\PDO::ATTR_TIMEOUT]);
+    }
+
+    public function test_it_parses_config_structure_to_doctrine_connection_config_if_host_configured(
+    )
+    {
+        $this->config = [
+            'type'            => 'MySQL',
+            'connection'      => [
+                'hostname' => 'localhost',
+                'database' => 'ourdatabase',
+                'username' => 'anyone',
+                'password' => 'anything',
+            ],
+            'charset'         => 'cp1212',
+            'timeout_seconds' => 10,
         ];
         $this->assertSame(
             [
-                'driver'   => 'pdo_mysql',
-                'host'     => 'localhost',
-                'user'     => 'anyone',
-                'password' => 'anything',
-                'dbname'   => 'ourdatabase',
-                'charset'  => 'cp1212',
+                'driver'        => 'pdo_mysql',
+                'host'          => 'localhost',
+                'user'          => 'anyone',
+                'password'      => 'anything',
+                'dbname'        => 'ourdatabase',
+                'charset'       => 'cp1212',
+                'driverOptions' => [
+                    \PDO::ATTR_TIMEOUT => 10,
+                ],
             ],
             $this->newSubject()->getConnection()
         );

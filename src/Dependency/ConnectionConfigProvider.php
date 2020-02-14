@@ -20,7 +20,7 @@ class ConnectionConfigProvider
     protected $config;
 
     /**
-     * 
+     *
      * @param array $config e.g. the connection group from the database connection config.
      *                      [NB] it is not expected to be valid for this to be empty at runtime, but allowing a null
      *                      value allows us to create an instance in development / test environments without full
@@ -30,14 +30,15 @@ class ConnectionConfigProvider
     {
         $this->config = \array_merge(
             [
-                'type'       => 'MySQL',
-                'connection' => [
+                'type'            => 'MySQL',
+                'connection'      => [
                     'hostname' => NULL,
                     'database' => NULL,
                     'username' => NULL,
                     'password' => NULL,
                 ],
-                'charset'    => 'utf8',
+                'charset'         => 'utf8',
+                'timeout_seconds' => 5,
             ],
             $config ?: []
         );
@@ -68,12 +69,15 @@ class ConnectionConfigProvider
         }
 
         return [
-            'driver'   => 'pdo_mysql',
-            'host'     => $this->config['connection']['hostname'],
-            'user'     => $this->config['connection']['username'],
-            'password' => $this->config['connection']['password'],
-            'dbname'   => $this->config['connection']['database'],
-            'charset'  => $this->config['charset'],
+            'driver'        => 'pdo_mysql',
+            'host'          => $this->config['connection']['hostname'],
+            'user'          => $this->config['connection']['username'],
+            'password'      => $this->config['connection']['password'],
+            'dbname'        => $this->config['connection']['database'],
+            'charset'       => $this->config['charset'],
+            'driverOptions' => [
+                \PDO::ATTR_TIMEOUT => $this->config['timeout_seconds'],
+            ],
         ];
 
     }

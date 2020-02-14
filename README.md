@@ -41,7 +41,8 @@ return [
             'username' => 'me',
             'password' => 'sesame',
         ],
-        // 'charset' => 'utf8' (this is the default if not specified)
+        // 'charset'         => 'utf8' (this is the default if not specified)
+        // 'timeout_seconds' => 5 (this is the default if not specified)
     ]
 ];
 ```
