@@ -1,5 +1,7 @@
 ### Unreleased
 
+## v1.1.0 (2020-02-14)
+
 * Add support for configuring database connection timeout, with 5 second default
 
 ## v1.0.0 (2019-04-03)
