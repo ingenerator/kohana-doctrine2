@@ -1,5 +1,7 @@
 ### Unreleased
 
+* Add support for configuring database connection timeout, with 5 second default
+
 ## v1.0.0 (2019-04-03)
 
 * Drop php5 support
