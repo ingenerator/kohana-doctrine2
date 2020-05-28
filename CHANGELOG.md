@@ -1,5 +1,10 @@
 ### Unreleased
 
+## v1.1.1 (2020-05-28)
+
+* Restrict doctrine/common and doctrine/persistence versions - the latest minor release of doctrine/orm allows a 
+  breaking release in these packages but we directly use classes and interfaces that have now been renamed.
+
 ## v1.1.0 (2020-02-14)
 
 * Add support for configuring database connection timeout, with 5 second default
