@@ -1,5 +1,12 @@
 ### Unreleased
 
+## v1.2.0 (2020-05-28)
+
+* Require / support doctrine/common:3 and doctrine/persistence:2 - interface and class namespaces have been changed
+  upstream. This is nominally breaking, but as per the doctrine/orm release it is primarily due to weak composer 
+  constraints allowing the major releases of doctrine/common and persistence - consuming projects can set an explicit
+  require for the older doctrine versions to also opt out of these changes.
+
 ## v1.1.1 (2020-05-28)
 
 * Restrict doctrine/common and doctrine/persistence versions - the latest minor release of doctrine/orm allows a 

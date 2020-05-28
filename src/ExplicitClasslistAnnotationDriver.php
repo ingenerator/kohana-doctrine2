@@ -4,7 +4,7 @@ namespace Ingenerator\KohanaDoctrine;
 
 
 use Doctrine\Common\Annotations\Reader;
-use Doctrine\Common\Persistence\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
 class ExplicitClasslistAnnotationDriver extends AnnotationDriver
