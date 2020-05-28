@@ -41,7 +41,7 @@ class ExplicitClasslistAnnotationDriverTest extends TestCase
     }
 
     /**
-     * @expectedException \Doctrine\Common\Persistence\Mapping\MappingException
+     * @expectedException \Doctrine\Persistence\Mapping\MappingException
      */
     public function test_its_get_classes_throws_if_configured_class_does_not_exist()
     {
