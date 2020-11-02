@@ -28,7 +28,7 @@ class DoctrineFactoryTest extends TestCase
 
     protected $env_before;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->cfg_before = \Kohana::$config;
@@ -37,7 +37,7 @@ class DoctrineFactoryTest extends TestCase
         \Kohana::$config->attach($this->getMockBuilder(\Kohana_Config_Source::class)->getMock());
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         \Kohana::$config      = $this->cfg_before;
         \Kohana::$environment = $this->env_before;

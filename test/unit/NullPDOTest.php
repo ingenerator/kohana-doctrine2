@@ -3,7 +3,9 @@
 namespace test\unit\Ingenerator\KohanaDoctrine;
 
 
+use Ingenerator\KohanaDoctrine\DatabaseNotConfiguredException;
 use Ingenerator\KohanaDoctrine\NullPDO;
+use InvalidArgumentException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -22,11 +24,9 @@ class NullPDOTest extends TestCase
         $this->assertInstanceOf(PDO::class, $subject);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_it_throws_if_driver_name_not_supported()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->driver = 'pdo_pgsql';
         $this->newSubject();
     }
@@ -42,11 +42,9 @@ class NullPDOTest extends TestCase
         $this->assertSame('mysql', $this->newSubject()->getAttribute(\PDO::ATTR_DRIVER_NAME));
     }
 
-    /**
-     * @expectedException \Ingenerator\KohanaDoctrine\DatabaseNotConfiguredException
-     */
     public function test_it_throws_on_access_to_unexpected_get_attribute_call()
     {
+        $this->expectException(DatabaseNotConfiguredException::class);
         $this->newSubject()->getAttribute(\PDO::ATTR_SERVER_VERSION);
     }
 
@@ -78,11 +76,11 @@ class NullPDOTest extends TestCase
 
     /**
      * @dataProvider provider_throwing_method_calls
-     * @expectedException \Ingenerator\KohanaDoctrine\DatabaseNotConfiguredException
      */
     public function test_it_throws_database_not_configured_on_any_call_to_pdo_method($method, $args)
     {
         $subject = $this->newSubject();
+        $this->expectException(DatabaseNotConfiguredException::class);
         \call_user_func_array([$subject, $method], $args);
     }
 

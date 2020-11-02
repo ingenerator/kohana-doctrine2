@@ -1,8 +1,6 @@
 kohana-doctrine2 - integrates [Doctrine 2 ORM](http://www.doctrine-project.org/projects/orm.html) with Kohana
 =============================================================================================================
 
-[![Build Status](https://travis-ci.org/ingenerator/kohana-doctrine2.png?branch=0.2.x)](https://travis-ci.org/ingenerator/kohana-doctrine2)
-
 **[!!] This package has been significantly rewritten for the 0.2 series**
 
 kohana-doctrine2 provides a wrapper with opinionated configuration for the Doctrine2 ORM in the way we like to use it.
@@ -147,7 +145,7 @@ return ConsoleRunner::createHelperSet(\Dependencies::instance()->get('doctrine.e
 
 ## License
 
-Copyright (c) 2013-2018, inGenerator Ltd
+Copyright (c) 2013 inGenerator Ltd
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without modification, are permitted provided

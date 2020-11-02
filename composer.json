@@ -33,16 +33,16 @@
   ],
   "require": {
     "composer/installers": "~1.0",
-    "ingenerator/kohana-core": "^4.3",
+    "ingenerator/kohana-core": "^4.7",
     "doctrine/orm": "^2.5",
     "doctrine/common": "^3.0",
     "doctrine/persistence": "^2.0",
-    "php": "^7.2",
-    "ingenerator/kohana-dependencies": "^0.9"
+    "php": "^7.4",
+    "ingenerator/kohana-dependencies": "^1.1"
   },
   "require-dev": {
-    "kohana/koharness": "*@dev",
-    "phpunit/phpunit": "^7.2"
+    "kohana/koharness": "dev-master",
+    "phpunit/phpunit": "^9.4"
   },
   "minimum-stability": "stable",
   "config": {
@@ -50,7 +50,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "0.1.x-dev"
+      "dev-master": "1.x-dev"
     }
   }
 }

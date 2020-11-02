@@ -1,5 +1,9 @@
 ### Unreleased
 
+## v1.3.0 (2020-11-02)
+
+* Support php 7.4
+
 ## v1.2.0 (2020-05-28)
 
 * Require / support doctrine/common:3 and doctrine/persistence:2 - interface and class namespaces have been changed
