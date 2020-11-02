@@ -177,7 +177,6 @@ class Doctrine_EMFactoryTest extends \PHPUnit\Framework\TestCase  {
 	 * For now, mapping all the Kohana driver types and options to Doctrine driver types and options is too much - so
 	 * just throw an exception if the type is other than MySQL
 	 *
-	 * @expectedException InvalidArgumentException
 	 * @covers Doctrine_EMFactory::entity_manager
 	 * @return void
 	 */
@@ -193,7 +192,8 @@ class Doctrine_EMFactoryTest extends \PHPUnit\Framework\TestCase  {
 		));
 
 		$factory = new Doctrine_EMFactory($config);
-		$em = $factory->entity_manager();
+        $this->expectException(InvalidArgumentException::class);
+		$factory->entity_manager();
 	}
 
 	/**

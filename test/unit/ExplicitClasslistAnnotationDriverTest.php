@@ -3,9 +3,10 @@
 namespace test\unit\Ingenerator\KohanaDoctrine;
 
 
+use BadMethodCallException;
 use Doctrine\Common\Annotations\Reader;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
-use Doctrine\ORM\Mapping\MappingException;
+use Doctrine\Persistence\Mapping\MappingException;
 use Ingenerator\KohanaDoctrine\ExplicitClasslistAnnotationDriver;
 use PHPUnit\Framework\TestCase;
 
@@ -40,33 +41,26 @@ class ExplicitClasslistAnnotationDriverTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \Doctrine\Persistence\Mapping\MappingException
-     */
     public function test_its_get_classes_throws_if_configured_class_does_not_exist()
     {
         $this->classes = ['Any\Class\That\Does\Not\Exist'];
+        $this->expectException(MappingException::class);
         $this->newSubject()->getAllClassNames();
     }
-    
-    /**
-     * @expectedException \BadMethodCallException
-     */
 
     public function test_it_throws_from_add_paths()
     {
+        $this->expectException(BadMethodCallException::class);
         $this->newSubject()->addPaths([__DIR__]);
     }
 
-    /**
-     * @expectedException \BadMethodCallException
-     */
     public function test_it_throws_from_get_paths()
     {
+        $this->expectException(BadMethodCallException::class);
         $this->newSubject()->getPaths();
     }
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->reader = $this->getMockBuilder(Reader::class)->getMock();

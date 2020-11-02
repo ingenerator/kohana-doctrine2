@@ -5,25 +5,13 @@ namespace test\unit\Ingenerator\KohanaDoctrine\Dependency;
 
 use Ingenerator\KohanaDoctrine\Dependency\ConnectionConfigProvider;
 use Ingenerator\KohanaDoctrine\NullPDO;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use function array_intersect_key;
 
 class ConnectionConfigProviderTest extends TestCase
 {
     protected $config = [];
-
-    public function test_it_is_initialisable()
-    {
-        $this->assertInstanceOf(ConnectionConfigProvider::class, $this->newSubject());
-    }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function test_it_throws_if_legacy_config_attribute_specifies_database_other_than_mysql()
-    {
-        $this->config['type'] = 'Postgres';
-        $this->newSubject()->getConnection();
-    }
 
     public function test_it_has_sane_defaults_for_database_type_mysql_and_charset_utf8()
     {
@@ -36,7 +24,10 @@ class ConnectionConfigProviderTest extends TestCase
             ],
         ];
         $connection   = $this->newSubject()->getConnection();
-        $this->assertArraySubset(['driver' => 'pdo_mysql', 'charset' => 'utf8'], $connection);
+        $this->assertSame(
+            ['driver' => 'pdo_mysql', 'charset' => 'utf8'],
+            array_intersect_key($connection, array_flip(['driver', 'pdo_mysql', 'charset']))
+        );
     }
 
     public function test_it_has_sane_defaults_for_timeout()
@@ -53,8 +44,34 @@ class ConnectionConfigProviderTest extends TestCase
         $this->assertSame(5, $connection['driverOptions'][\PDO::ATTR_TIMEOUT]);
     }
 
-    public function test_it_parses_config_structure_to_doctrine_connection_config_if_host_configured(
-    )
+    public function test_it_is_initialisable()
+    {
+        $this->assertInstanceOf(ConnectionConfigProvider::class, $this->newSubject());
+    }
+
+    public function test_it_parses_config_structure_and_returns_null_pdo_if_no_host_configured()
+    {
+        $this->config = [
+            'type'       => 'MySQL',
+            'connection' => [
+                'hostname' => NULL,
+                'database' => 'ourdatabase',
+                'username' => 'anyone',
+                'password' => 'anything',
+            ],
+            'charset'    => 'cp1212',
+        ];
+        $this->assertEquals(
+            [
+                'driver'  => 'pdo_mysql',
+                'pdo'     => new NullPDO('pdo_mysql'),
+                'charset' => 'cp1212',
+            ],
+            $this->newSubject()->getConnection()
+        );
+    }
+
+    public function test_it_parses_config_structure_to_doctrine_connection_config_if_host_configured()
     {
         $this->config = [
             'type'            => 'MySQL',
@@ -83,28 +100,12 @@ class ConnectionConfigProviderTest extends TestCase
         );
     }
 
-    public function test_it_parses_config_structure_and_returns_null_pdo_if_no_host_configured()
+    public function test_it_throws_if_legacy_config_attribute_specifies_database_other_than_mysql()
     {
-        $this->config = [
-            'type'       => 'MySQL',
-            'connection' => [
-                'hostname' => NULL,
-                'database' => 'ourdatabase',
-                'username' => 'anyone',
-                'password' => 'anything',
-            ],
-            'charset'    => 'cp1212',
-        ];
-        $this->assertEquals(
-            [
-                'driver'  => 'pdo_mysql',
-                'pdo'     => new NullPDO('pdo_mysql'),
-                'charset' => 'cp1212',
-            ],
-            $this->newSubject()->getConnection()
-        );
+        $this->config['type'] = 'Postgres';
+        $this->expectException(InvalidArgumentException::class);
+        $this->newSubject()->getConnection();
     }
-
 
     /**
      * @return ConnectionConfigProvider
