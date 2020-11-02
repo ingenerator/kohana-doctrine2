@@ -38,7 +38,7 @@
     "doctrine/common": "^3.0",
     "doctrine/persistence": "^2.0",
     "php": "^7.4",
-    "ingenerator/kohana-dependencies": "^0.9"
+    "ingenerator/kohana-dependencies": "^1.1"
   },
   "require-dev": {
     "kohana/koharness": "dev-master",
