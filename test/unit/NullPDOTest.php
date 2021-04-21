@@ -60,8 +60,7 @@ class NullPDOTest extends TestCase
             $cases[$method->getName()] = [$method->getName(), $args];
         }
 
-        // For some reason ->query gives the wrong parameter info in Reflection
-        $cases['query'] = ['query', [NULL]];
+        $cases['query'] = ['query', [""]];
 
         // These methods don't throw the exception, anything else should
         unset($cases['__construct']);
