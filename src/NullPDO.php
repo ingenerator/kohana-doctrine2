@@ -66,7 +66,7 @@ class NullPDO extends \PDO
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function query($statement, $mode = PDO::ATTR_DEFAULT_FETCH_MODE, $arg3 = NULL, array $ctorargs = [])
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
