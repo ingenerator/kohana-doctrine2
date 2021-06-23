@@ -32,12 +32,13 @@
     }
   ],
   "require": {
-    "composer/installers": "~1.0",
-    "ingenerator/kohana-core": "^4.7",
-    "doctrine/orm": "^2.5",
-    "doctrine/common": "^3.0",
-    "doctrine/persistence": "^2.0",
     "php": "^7.4 || ~8.0.0",
+    "composer/installers": "~1.0",
+    "doctrine/cache": "^1",
+    "doctrine/common": "^3.0",
+    "doctrine/orm": "^2.5",
+    "doctrine/persistence": "^2.0",
+    "ingenerator/kohana-core": "^4.7",
     "ingenerator/kohana-dependencies": "^1.1"
   },
   "require-dev": {
@@ -46,7 +47,8 @@
   },
   "minimum-stability": "stable",
   "config": {
-    "preferred-install": "dist"
+    "preferred-install": "dist",
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {
