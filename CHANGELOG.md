@@ -1,5 +1,9 @@
 ### Unreleased
 
+## v1.3.2 (2021-06-23)
+
+* Pin doctrine/cache at v1 until we follow a migration path to using PSR compatible cache adaptors with doctrine/orm
+
 ## v1.3.1 (2021-04-21)
 
 * Support php 8.0
