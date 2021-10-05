@@ -36,6 +36,7 @@
     "composer/installers": "~1.0",
     "doctrine/cache": "^1",
     "doctrine/common": "^3.0",
+    "doctrine/dbal": "^2",
     "doctrine/orm": "^2.5",
     "doctrine/persistence": "^2.0",
     "ingenerator/kohana-core": "^4.7",
