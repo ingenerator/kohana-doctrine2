@@ -1,5 +1,9 @@
 ### Unreleased
 
+## v1.3.3 (2021-10-05)
+
+* Pin doctrine/dbal at v2 until we are ready to migrate to v3
+
 ## v1.3.2 (2021-06-23)
 
 * Pin doctrine/cache at v1 until we follow a migration path to using PSR compatible cache adaptors with doctrine/orm
