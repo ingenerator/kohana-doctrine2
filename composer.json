@@ -34,6 +34,7 @@
   "require": {
     "php": "^7.4 || ~8.0.0",
     "composer/installers": "~1.0",
+    "doctrine/annotations": "^1.13",
     "doctrine/cache": "^1",
     "doctrine/common": "^3.0",
     "doctrine/dbal": "^2",

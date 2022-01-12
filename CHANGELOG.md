@@ -1,5 +1,10 @@
 ### Unreleased
 
+
+## v1.3.4 (2022-01-12)
+
+* Require doctrine/annotations at v1.13
+
 ## v1.3.3 (2021-10-05)
 
 * Pin doctrine/dbal at v2 until we are ready to migrate to v3
