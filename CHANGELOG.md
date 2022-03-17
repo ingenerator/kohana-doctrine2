@@ -1,5 +1,8 @@
 ### Unreleased
 
+## v1.3.5 (2022-03-17)
+
+* Pin doctrine/persistence at < v2.4
 
 ## v1.3.4 (2022-01-12)
 
