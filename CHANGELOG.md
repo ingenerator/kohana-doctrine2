@@ -1,5 +1,9 @@
 ### Unreleased
 
+## v1.3.6 (2022-03-28)
+
+* Add support for doctrine/persistence >= 2.4
+
 ## v1.3.5 (2022-03-17)
 
 * Pin doctrine/persistence at < v2.4
