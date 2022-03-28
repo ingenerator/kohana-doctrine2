@@ -39,7 +39,7 @@
     "doctrine/common": "^3.0",
     "doctrine/dbal": "^2",
     "doctrine/orm": "^2.5",
-    "doctrine/persistence": "~2.3.0",
+    "doctrine/persistence": "^2.3",
     "ingenerator/kohana-core": "^4.7",
     "ingenerator/kohana-dependencies": "^1.1"
   },

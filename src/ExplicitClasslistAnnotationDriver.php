@@ -42,6 +42,10 @@ class ExplicitClasslistAnnotationDriver extends AnnotationDriver
 
     public function addPaths(array $paths)
     {
+        if ($paths === []) {
+            // This is always called by the constructor as of doctrine/persistence@2.4.0
+            return;
+        }
         throw new \BadMethodCallException(__CLASS__.' does not support access to entity paths');
     }
 
