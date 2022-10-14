@@ -32,7 +32,8 @@
     }
   ],
   "require": {
-    "php": "^7.4 || ~8.0.0",
+    "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
+    "ext-pdo": "*",
     "composer/installers": "~1.0",
     "doctrine/annotations": "^1.13",
     "doctrine/cache": "^1",
@@ -40,17 +41,20 @@
     "doctrine/dbal": "^2",
     "doctrine/orm": "^2.5",
     "doctrine/persistence": "^2.3",
-    "ingenerator/kohana-core": "^4.7",
+    "ingenerator/kohana-core": "^4.9",
     "ingenerator/kohana-dependencies": "^1.1"
   },
   "require-dev": {
     "kohana/koharness": "dev-master",
-    "phpunit/phpunit": "^9.4"
+    "phpunit/phpunit": "^9.5.5"
   },
   "minimum-stability": "stable",
   "config": {
     "preferred-install": "dist",
-    "sort-packages": true
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/installers": true
+    }
   },
   "extra": {
     "branch-alias": {
