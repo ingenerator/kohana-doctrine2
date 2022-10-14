@@ -21,72 +21,72 @@ class NullPDO extends \PDO
         }
     }
 
-    public function setAttribute($attribute, $value)
+    public function setAttribute($attribute, $value): bool
     {
         // No-op
+	    return FALSE;
     }
 
-    public function getAttribute($attribute)
+    public function getAttribute($attribute): mixed
     {
-        switch ($attribute) {
-            case static::ATTR_DRIVER_NAME:
-                return $this->driver;
-        }
+	    if ($attribute == static::ATTR_DRIVER_NAME) {
+		    return $this->driver;
+	    }
 
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function prepare($statement, $driver_options = [])
+    public function prepare($statement, $driver_options = []): \PDOStatement|false
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function beginTransaction()
+    public function beginTransaction(): bool
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function commit()
+    public function commit(): bool
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function rollBack()
+    public function rollBack(): bool
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function inTransaction()
+    public function inTransaction(): bool
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function exec($statement)
+    public function exec($statement): int|false
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs)
+    public function query(string $query, ?int $fetchMode = null, mixed ...$fetchModeArgs): \PDOStatement|false
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function lastInsertId($name = NULL)
+    public function lastInsertId($name = NULL): string|false
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function errorCode()
+    public function errorCode(): ?string
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function errorInfo()
+    public function errorInfo(): array
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
 
-    public function quote($string, $parameter_type = PDO::PARAM_STR)
+    public function quote($string, $parameter_type = PDO::PARAM_STR): string|false
     {
         throw DatabaseNotConfiguredException::forMethod(__METHOD__);
     }
