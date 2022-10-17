@@ -4,7 +4,7 @@ namespace test\unit\Ingenerator\KohanaDoctrine\Dependency;
 
 
 use Ingenerator\KohanaDoctrine\Dependency\ConnectionConfigProvider;
-use Ingenerator\KohanaDoctrine\NullPDO;
+use Ingenerator\KohanaDoctrine\FakeMysqlDriver;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use function array_intersect_key;
@@ -61,11 +61,10 @@ class ConnectionConfigProviderTest extends TestCase
             ],
             'charset'    => 'cp1212',
         ];
-        $this->assertEquals(
+        $this->assertSame(
             [
-                'driver'  => 'pdo_mysql',
-                'pdo'     => new NullPDO('pdo_mysql'),
-                'charset' => 'cp1212',
+                'driverClass' => FakeMysqlDriver::class,
+                'charset'     => 'cp1212',
             ],
             $this->newSubject()->getConnection()
         );

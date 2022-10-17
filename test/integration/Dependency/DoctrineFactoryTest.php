@@ -282,7 +282,7 @@ class DoctrineFactoryTest extends TestCase
         $this->assertInstanceOf(\PDO::class, $pdo);
         $em = $container->get('doctrine.entity_manager');
         /** @var EntityManager $em */
-        $this->assertSame($pdo, $em->getConnection()->getWrappedConnection());
+        $this->assertSame($pdo, $em->getConnection()->getNativeConnection());
     }
 
     public function test_it_attaches_event_manager_to_doctrine()
