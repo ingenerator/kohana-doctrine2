@@ -38,7 +38,7 @@
     "doctrine/annotations": "^1.13",
     "doctrine/cache": "^1",
     "doctrine/common": "^3.0",
-    "doctrine/dbal": "^2",
+    "doctrine/dbal": "^3",
     "doctrine/orm": "^2.5",
     "doctrine/persistence": "^2.3",
     "ingenerator/kohana-core": "^4.9",
