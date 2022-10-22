@@ -27,13 +27,16 @@ class NullPDO extends \PDO
 	    return FALSE;
     }
 
-    public function getAttribute($attribute): mixed
+    public function getAttribute(int $attribute): mixed
     {
-	    if ($attribute == static::ATTR_DRIVER_NAME) {
-		    return $this->driver;
-	    }
+        return match ($attribute) {
+            static::ATTR_DRIVER_NAME => $this->driver,
 
-        throw DatabaseNotConfiguredException::forMethod(__METHOD__);
+            // The actual server version is not important, dbal just needs something (that it supports)
+            static::ATTR_SERVER_VERSION => '5.7.29',
+
+            default => throw DatabaseNotConfiguredException::forGetAttribute($attribute)
+        };
     }
 
     public function prepare($statement, $driver_options = []): \PDOStatement|false
