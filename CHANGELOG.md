@@ -1,6 +1,22 @@
 ### Unreleased
 
-* Update doctrine/dbal to v3
+## v2.0.0 (2022-10-28)
+
+* [BREAKING] Update doctrine/dbal to v3
+  - This is a major release that introduces a number of breaking changes and deprecations - see the full upgrade notes
+    at https://github.com/doctrine/dbal/blob/3.5.x/UPGRADE.md
+  
+  - Due to changes in the DBAL driver structure, `DoctrineFactory::getRawPDO` and the `doctrine.pdo_connection` service
+    now return an **actual** native PDO object, rather than a doctrine-specific wrapper/extension class. The major 
+    difference will be that any calls will now throw native PDOException rather than doctrine exceptions. This should
+    not affect actual calling code (which presumably expects a `PDOException` if it is calling methods on a `PDO`). 
+    However, things like loggers and global exception handlers will now potentially get two different classes of
+    database exceptions.
+
+  - The connection config returned when no database is configured (e.g. in an isolated unit-test environment) has 
+    changed. We still use our NullPDO fake database connection, but this is now wrapped in a new FakeMysqlDriver class
+    as doctrine have split the driver and underlying PDO classes. NullPDO is now hardcoded to report that it is 
+    connected to mysql 5.7.29.
 
 ## v1.4.0 (2022-10-14)
 
