@@ -47,9 +47,12 @@ return [
 
 Sometimes - e.g. for unit tests or running Doctrine build tooling - you might not have a database server actually 
 available. If you configure `'hostname' => NULL` we will use a `NullPDO` driver to allow Doctrine to bootstrap itself
-without failing on a database connection error. That connection is sufficent to run things like `orm:generate-proxies` 
-or `orm:validate-schema --skip-sync`. If your code does anything that attempts to actually make PDO calls we'll throw
-an exception.
+without failing on a database connection error. 
+
+That connection is sufficent to run things like `orm:generate-proxies` or `orm:validate-schema --skip-sync`. You should
+be aware that the NullPDO driver reports a mysql version of 5.7.29 - at time of writing doctrine/dbal does not vary any
+SQL or column definitions between mysql 5.7.x and 8.x, so it shouldn't matter if this version differs from your runtime
+mysql version. If your code does anything that attempts to actually make PDO calls we'll throw an exception.
 
 ## Configuring entities and options
 

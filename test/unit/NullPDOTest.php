@@ -42,10 +42,17 @@ class NullPDOTest extends TestCase
         $this->assertSame('mysql', $this->newSubject()->getAttribute(\PDO::ATTR_DRIVER_NAME));
     }
 
+    public function test_it_returns_mysql_version_5_7()
+    {
+        // The actual server version is somewhat unimportant, doctrine/dbal doesn't differentiate between 5.x and 8.x
+        // in any meaningful way at this point. We just need to return a version.
+        $this->assertSame('5.7.29', $this->newSubject()->getAttribute(\PDO::ATTR_SERVER_VERSION));
+    }
+
     public function test_it_throws_on_access_to_unexpected_get_attribute_call()
     {
         $this->expectException(DatabaseNotConfiguredException::class);
-        $this->newSubject()->getAttribute(\PDO::ATTR_SERVER_VERSION);
+        $this->newSubject()->getAttribute(\PDO::ATTR_CONNECTION_STATUS);
     }
 
     public function provider_throwing_method_calls()

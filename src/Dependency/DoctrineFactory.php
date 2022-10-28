@@ -6,14 +6,13 @@ namespace Ingenerator\KohanaDoctrine\Dependency;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Annotations\SimpleAnnotationReader;
-use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\EventManager;
-use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Ingenerator\KohanaDoctrine\ExplicitClasslistAnnotationDriver;
 
 class DoctrineFactory
@@ -271,7 +270,20 @@ class DoctrineFactory
      */
     public static function getRawPDO(EntityManager $entityManager)
     {
-        $driver = $entityManager->getConnection()->getWrappedConnection();
+        // NOTE: getNativeConnection() returns a raw PDO object, *not* a Doctrine extension of the PDO object
+        // as in DBAL < 3. That is because in DBAL >= 3, the doctrine connection object is a *proxy* to the
+        // native PDO, not an *extension* of it. Although the DBAL3 class is nominally API-compatible with
+        // the PDO interface (with a few tweaks) it obviously won't pass typehints where a dependency is expecting
+        // an instance of PDO.
+        //
+        // The implementation of the querying etc is much the same between the two DBAL versions, but the major 
+        // change is that the Doctrine proxy wraps PDO exceptions in a Doctrine\DBAL\Driver\Exception whereas
+        // using the native PDO will of course throw native PDOException.
+        //
+        // My hunch is it'll be easier to update our exception handling (if required) than to change typehints
+        // to couple things that currently know nothing about doctrine such as the MysqlSession handler from
+        // php-utils.
+        $driver = $entityManager->getConnection()->getNativeConnection();
         if ( ! $driver instanceof \PDO) {
             throw new \InvalidArgumentException(
                 'Expected Doctrine connection to be instance of '.\PDO::class.', got '.\get_class($driver)

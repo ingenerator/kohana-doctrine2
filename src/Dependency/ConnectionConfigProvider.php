@@ -3,8 +3,6 @@
 namespace Ingenerator\KohanaDoctrine\Dependency;
 
 
-use Ingenerator\KohanaDoctrine\NullPDO;
-
 /**
  * Maps database config (in same structure as for legacy Kohana database components) to a doctrine config
  *
@@ -62,8 +60,8 @@ class ConnectionConfigProvider
 
         if ($this->config['connection']['hostname'] === NULL) {
             return [
-                'driver'  => 'pdo_mysql',
-                'pdo'     => new NullPDO('pdo_mysql'),
+                'driverClass'  => \Ingenerator\KohanaDoctrine\FakeMysqlDriver::class,
+                //                'pdo'     => new NullPDO('pdo_mysql'),
                 'charset' => $this->config['charset'],
             ];
         }
