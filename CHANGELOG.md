@@ -1,5 +1,9 @@
 ### Unreleased
 
+## v2.1.0 (2024-09-25)
+
+* Support PHP 8.3
+
 ## v2.0.0 (2022-10-28)
 
 * [BREAKING] Update doctrine/dbal to v3
