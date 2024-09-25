@@ -17,6 +17,7 @@ jobs:
         - '8.0'
         - '8.1'
         - '8.2'
+        - '8.3'
         dependencies:
         - 'default'
         include:
@@ -25,6 +26,8 @@ jobs:
         - php_version: '8.1'
           dependencies: 'lowest'
         - php_version: '8.2'
+          dependencies: 'lowest'
+        - php_version: '8.3'
           dependencies: 'lowest'
     steps:
     - name: Setup PHP

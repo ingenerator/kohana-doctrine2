@@ -27,3 +27,8 @@ README  text eol=lf
 *.swf    binary
 *.zip    binary
 *.sqlite binary
+
+/.github export-ignore
+/test export-ignore
+/koharness.php export-ignore
+/phpunit.xml export-ignore
