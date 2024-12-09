@@ -35,13 +35,13 @@
     "php": "~8.2.0 || ~8.3.0",
     "ext-pdo": "*",
     "composer/installers": "^1.12 || ^2",
-    "doctrine/cache": "^1.13",
     "doctrine/common": "^3.4",
     "doctrine/dbal": "^3.9",
     "doctrine/orm": "^2.20",
     "doctrine/persistence": "^2.5",
     "ingenerator/kohana-core": "^4.12",
-    "ingenerator/kohana-dependencies": "^1.4"
+    "ingenerator/kohana-dependencies": "^1.4",
+    "symfony/cache": "^6.4 || ^7.2"
   },
   "require-dev": {
     "kohana/koharness": "dev-master",
