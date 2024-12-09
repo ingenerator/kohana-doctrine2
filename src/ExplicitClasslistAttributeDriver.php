@@ -3,25 +3,20 @@
 namespace Ingenerator\KohanaDoctrine;
 
 
-use Doctrine\Common\Annotations\Reader;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\Persistence\Mapping\MappingException;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 
-class ExplicitClasslistAnnotationDriver extends AnnotationDriver
+class ExplicitClasslistAttributeDriver extends AttributeDriver
 {
     /**
-     * ExplicitClasslistAnnotationDriver constructor.
-     *
-     * @param Reader     $reader
-     * @param array|NULL $entity_classes The list of entity class names
-     *                                   [NB] it is not expected to be valid for this to be empty at runtime, but
-     *                                   allowing a null value allows us to create an instance in development / test
-     *                                   environments without full config.
+     * @param list<class-string>|null $entity_classes The list of entity class names. It is not expected to be nullable
+     *                                                at runtime, but can take null to support testing when config is
+     *                                                not fully defined.
      */
-    public function __construct(Reader $reader, array $entity_classes = NULL)
+    public function __construct(?array $entity_classes = NULL)
     {
-        parent::__construct($reader, []);
-        $this->classNames = $entity_classes ?: [];
+        parent::__construct([], reportFieldsWhereDeclared: TRUE);
+        $this->classNames = $entity_classes ?? [];
     }
 
     public function getAllClassNames()
