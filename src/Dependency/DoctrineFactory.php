@@ -4,6 +4,7 @@ namespace Ingenerator\KohanaDoctrine\Dependency;
 
 
 use Doctrine\Common\EventManager;
+use Doctrine\DBAL\DriverManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
@@ -169,11 +170,9 @@ class DoctrineFactory
         Configuration $config,
         EventManager $event_manager
     ): EntityManager {
-        return EntityManager::create(
-            $conn->getConnection(),
-            $config,
-            $event_manager
-        );
+        $connection = DriverManager::getConnection($conn->getConnection(), $config, $event_manager);
+
+        return new EntityManager($connection, $config);
     }
 
     /**
