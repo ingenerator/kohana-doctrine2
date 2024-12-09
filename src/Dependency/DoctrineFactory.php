@@ -3,17 +3,13 @@
 namespace Ingenerator\KohanaDoctrine\Dependency;
 
 
-use Doctrine\Common\Annotations\AnnotationRegistry;
-use Doctrine\Common\Annotations\CachedReader;
-use Doctrine\Common\Annotations\SimpleAnnotationReader;
-use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
-use Ingenerator\KohanaDoctrine\ExplicitClasslistAnnotationDriver;
+use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
 
 class DoctrineFactory
 {
@@ -53,19 +49,11 @@ class DoctrineFactory
                     'metadata'          => [
                         'driver' => [
                             '_settings' => [
-                                'class'     => ExplicitClasslistAnnotationDriver::class,
+                                'class'     => ExplicitClasslistAttributeDriver::class,
                                 'arguments' => [
-                                    '%doctrine.config.metadata.reader%',
                                     '@doctrine.entity_classes@',
                                 ],
                                 'shared'    => TRUE,
-                            ],
-                        ],
-                        'reader' => [
-                            '_settings' => [
-                                'class'       => static::class,
-                                'constructor' => 'buildMetadataReader',
-                                'shared'      => TRUE,
                             ],
                         ],
                     ],
@@ -194,24 +182,6 @@ class DoctrineFactory
             $config,
             $event_manager
         );
-    }
-
-    /**
-     * @return CachedReader
-     */
-    public static function buildMetadataReader()
-    {
-        // Register the Doctrine annotations - this replaces the older method of loading a specific file, instead
-        // just allows the autoloader to do its work. Future doctrine releases are expected to drop this outright
-        // in favour of just always using autoloading
-        AnnotationRegistry::registerLoader('class_exists');
-
-        $reader = new SimpleAnnotationReader();
-        $reader->addNamespace('Doctrine\ORM\Mapping');
-
-        // The cache used here is largely irrelevant, the compiled metadata is cached by the metadata cache and if
-        // so the reader is never used at all.
-        return new CachedReader($reader, new ArrayCache);
     }
 
     /**

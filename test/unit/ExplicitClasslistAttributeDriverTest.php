@@ -4,29 +4,20 @@ namespace test\unit\Ingenerator\KohanaDoctrine;
 
 
 use BadMethodCallException;
-use Doctrine\Common\Annotations\Reader;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\Persistence\Mapping\MappingException;
-use Ingenerator\KohanaDoctrine\ExplicitClasslistAnnotationDriver;
+use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
 use PHPUnit\Framework\TestCase;
 
-class ExplicitClasslistAnnotationDriverTest extends TestCase
+class ExplicitClasslistAttributeDriverTest extends TestCase
 {
-    /**
-     * @var array
-     */
-    protected $classes = [];
-
-    /**
-     * @var
-     */
-    protected $reader;
+    protected array $classes = [];
 
     public function test_is_initialisable_annotation_driver()
     {
         $subject = $this->newSubject();
-        $this->assertInstanceOf(ExplicitClasslistAnnotationDriver::class, $subject);
-        $this->assertInstanceOf(AnnotationDriver::class, $subject);
+        $this->assertInstanceOf(ExplicitClasslistAttributeDriver::class, $subject);
+        $this->assertInstanceOf(AttributeDriver::class, $subject);
     }
 
     public function test_it_returns_injected_list_of_class_names()
@@ -60,15 +51,9 @@ class ExplicitClasslistAnnotationDriverTest extends TestCase
         $this->newSubject()->getPaths();
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->reader = $this->getMockBuilder(Reader::class)->getMock();
-    }
-
     protected function newSubject()
     {
-        return new ExplicitClasslistAnnotationDriver($this->reader, $this->classes);
+        return new ExplicitClasslistAttributeDriver($this->classes);
     }
 
 }

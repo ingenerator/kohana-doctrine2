@@ -4,7 +4,6 @@
 namespace test\integration\Ingenerator\KohanaDoctrine\Dependency;
 
 
-use Doctrine\Common\Annotations\CachedReader;
 use Doctrine\Common\Cache\ApcuCache;
 use Doctrine\Common\Cache\ArrayCache;
 use Doctrine\Common\Cache\Cache;
@@ -16,9 +15,12 @@ use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Events;
+use Doctrine\ORM\Mapping\Column;
+use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\Mapping\Id;
 use Ingenerator\KohanaDoctrine\Dependency\ConnectionConfigProvider;
 use Ingenerator\KohanaDoctrine\Dependency\DoctrineFactory;
-use Ingenerator\KohanaDoctrine\ExplicitClasslistAnnotationDriver;
+use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
 use PHPUnit\Framework\TestCase;
 
 class DoctrineFactoryTest extends TestCase
@@ -50,8 +52,7 @@ class DoctrineFactoryTest extends TestCase
             ['doctrine.cache.data_cache', Cache::class, TRUE],
             ['doctrine.cache.compiler_cache', Cache::class, TRUE],
             ['doctrine.config.connection_config', ConnectionConfigProvider::class, FALSE],
-            ['doctrine.config.metadata.driver', ExplicitClasslistAnnotationDriver::class, TRUE],
-            ['doctrine.config.metadata.reader', CachedReader::class, TRUE],
+            ['doctrine.config.metadata.driver', ExplicitClasslistAttributeDriver::class, TRUE],
             ['doctrine.config.orm_config', Configuration::class, TRUE],
             ['doctrine.entity_manager', EntityManager::class, TRUE],
             ['doctrine.event_manager', EventManager::class, TRUE],
@@ -339,16 +340,12 @@ class DoctrineFactoryTest extends TestCase
 
 }
 
-/**
- * @Entity
- */
+#[Entity]
 class SomeEntity
 {
 
-    /**
-     * @Id
-     * @Column(nullable=true)
-     */
+    #[Id]
+    #[Column(nullable: true)]
     protected $whatever;
 }
 
