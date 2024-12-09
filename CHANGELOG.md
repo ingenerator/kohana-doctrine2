@@ -3,9 +3,10 @@
 ## v3.0.0 (2024-12-09)
 
 * [BREAKING] Switch to using attributes instead of annotations for mapping
-    - Removes the `ExplicitCallslistAnnotationDriver` class
-    - Removes the `doctrine.config.metadata.reader` service definition
-    - Adds `ExplicitClasslistAttributeDriver` as the default mapping driver
+  - Removes the `ExplicitCallslistAnnotationDriver` class
+  - Removes the `doctrine.config.metadata.reader` service definition
+  - Adds `ExplicitClasslistAttributeDriver` as the default mapping driver
+  - Drops composer dependency on doctrine/annotations
 * Drop support for PHP < 8.2
 
 ## v2.1.0 (2024-09-25)
