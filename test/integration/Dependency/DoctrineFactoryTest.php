@@ -4,9 +4,6 @@
 namespace test\integration\Ingenerator\KohanaDoctrine\Dependency;
 
 
-use Doctrine\Common\Cache\ApcuCache;
-use Doctrine\Common\Cache\ArrayCache;
-use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
@@ -22,6 +19,9 @@ use Ingenerator\KohanaDoctrine\Dependency\ConnectionConfigProvider;
 use Ingenerator\KohanaDoctrine\Dependency\DoctrineFactory;
 use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
 use PHPUnit\Framework\TestCase;
+use Psr\Cache\CacheItemPoolInterface;
+use Symfony\Component\Cache\Adapter\ApcuAdapter;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
 
 class DoctrineFactoryTest extends TestCase
 {
@@ -49,8 +49,8 @@ class DoctrineFactoryTest extends TestCase
     public function provider_expected_services()
     {
         return [
-            ['doctrine.cache.data_cache', Cache::class, TRUE],
-            ['doctrine.cache.compiler_cache', Cache::class, TRUE],
+            ['doctrine.cache.data_cache', CacheItemPoolInterface::class, TRUE],
+            ['doctrine.cache.compiler_cache', CacheItemPoolInterface::class, TRUE],
             ['doctrine.config.connection_config', ConnectionConfigProvider::class, FALSE],
             ['doctrine.config.metadata.driver', ExplicitClasslistAttributeDriver::class, TRUE],
             ['doctrine.config.orm_config', Configuration::class, TRUE],
@@ -89,9 +89,9 @@ class DoctrineFactoryTest extends TestCase
     public function provider_expected_compiler_cache()
     {
         return [
-            [\Kohana::DEVELOPMENT, ArrayCache::class],
-            [\Kohana::STAGING, ApcuCache::class],
-            [\Kohana::PRODUCTION, ApcuCache::class],
+            [\Kohana::DEVELOPMENT, ArrayAdapter::class],
+            [\Kohana::STAGING, ApcuAdapter::class],
+            [\Kohana::PRODUCTION, ApcuAdapter::class],
         ];
     }
 
@@ -108,12 +108,12 @@ class DoctrineFactoryTest extends TestCase
         /** @var Configuration $config */
         $this->assertSame(
             $cache,
-            $config->getMetadataCacheImpl(),
+            $config->getMetadataCache(),
             'Should use compiler cache for metadata'
         );
         $this->assertSame(
             $cache,
-            $config->getQueryCacheImpl(),
+            $config->getQueryCache(),
             'Should use compiler cache for parsed queries'
         );
     }
@@ -134,16 +134,16 @@ class DoctrineFactoryTest extends TestCase
         \Kohana::$environment = $env;
         $container            = $this->newContainer(DoctrineFactory::definitions());
         $cache                = $container->get('doctrine.cache.data_cache');
-        $this->assertInstanceOf(ArrayCache::class, $cache);
+        $this->assertInstanceOf(ArrayAdapter::class, $cache);
         $config = $container->get('doctrine.config.orm_config');
         /** @var Configuration $config */
         $this->assertSame(
             $cache,
-            $config->getResultCacheImpl(),
+            $config->getResultCache(),
             'Should use data cache for result caching'
         );
         $this->assertNull(
-            $config->getHydrationCacheImpl(),
+            $config->getHydrationCache(),
             'Should not assign hydration cache by default'
         );
     }

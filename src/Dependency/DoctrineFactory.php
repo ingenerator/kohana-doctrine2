@@ -3,13 +3,13 @@
 namespace Ingenerator\KohanaDoctrine\Dependency;
 
 
-use Doctrine\Common\Cache\Cache;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Types\Type;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
+use Psr\Cache\CacheItemPoolInterface;
 
 class DoctrineFactory
 {
@@ -187,19 +187,14 @@ class DoctrineFactory
     /**
      * Creates and configures the ORM config
      *
-     * @param MappingDriver $meta_driver
-     * @param Cache         $compiler_cache
-     * @param Cache         $data_cache
-     * @param array|NULL    $config
-     *
      * @return Configuration
      * @throws \Doctrine\DBAL\DBALException
      */
     public static function buildORMConfig(
         MappingDriver $meta_driver,
-        Cache $compiler_cache,
-        Cache $data_cache,
-        array $config = NULL
+        CacheItemPoolInterface $compiler_cache,
+        CacheItemPoolInterface $data_cache,
+        ?array $config = NULL
     ) {
         $config  = \array_merge(
             [
@@ -208,15 +203,15 @@ class DoctrineFactory
                 'proxy_namespace'  => 'DoctrineEntityProxy',
                 'custom_types'     => [],
             ],
-            $config ?: []
+            $config ?? []
         );
         $orm_cfg = new \Doctrine\ORM\Configuration;
         $orm_cfg->setMetadataDriverImpl($meta_driver);
 
         // Configure caches
-        $orm_cfg->setMetadataCacheImpl($compiler_cache);
-        $orm_cfg->setQueryCacheImpl($compiler_cache);
-        $orm_cfg->setResultCacheImpl($data_cache);
+        $orm_cfg->setMetadataCache($compiler_cache);
+        $orm_cfg->setQueryCache($compiler_cache);
+        $orm_cfg->setResultCache($data_cache);
 
         // Configure proxy generation
         $orm_cfg->setProxyDir($config['proxy_dir']);
