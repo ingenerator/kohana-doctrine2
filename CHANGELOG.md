@@ -6,6 +6,7 @@
     - Removes the `ExplicitCallslistAnnotationDriver` class
     - Removes the `doctrine.config.metadata.reader` service definition
     - Adds `ExplicitClasslistAttributeDriver` as the default mapping driver
+    - Drops composer dependency on doctrine/annotations
 * Narrow supported dependency versions to the current latest minor of the suppoerted
   major version.
 * Drop support for PHP < 8.2
