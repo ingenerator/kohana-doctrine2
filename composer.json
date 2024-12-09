@@ -32,7 +32,7 @@
     }
   ],
   "require": {
-    "php": "~8.0.0 || ~8.1.0 || ~8.2.0 || ~8.3.0",
+    "php": "~8.2.0 || ~8.3.0",
     "ext-pdo": "*",
     "composer/installers": "~1.0",
     "doctrine/annotations": "^1.13",
