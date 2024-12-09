@@ -12,45 +12,38 @@ namespace Ingenerator\KohanaDoctrine\Dependency;
 class ConnectionConfigProvider
 {
 
-    /**
-     * @var array
-     */
-    protected $config;
+    protected array $config;
 
     /**
      *
-     * @param array $config e.g. the connection group from the database connection config.
+     * @param ?array $config e.g. the connection group from the database connection config.
      *                      [NB] it is not expected to be valid for this to be empty at runtime, but allowing a null
      *                      value allows us to create an instance in development / test environments without full
      *                      config.
      */
-    public function __construct(array $config = NULL)
+    public function __construct(?array $config = NULL)
     {
-        $this->config = \array_merge(
-            [
-                'type'            => 'MySQL',
-                'connection'      => [
-                    'hostname' => NULL,
-                    'database' => NULL,
-                    'username' => NULL,
-                    'password' => NULL,
-                ],
-                'charset'         => 'utf8',
-                'timeout_seconds' => 5,
+        $this->config = [
+            'type' => 'MySQL',
+            'connection' => [
+                'hostname' => NULL,
+                'database' => NULL,
+                'username' => NULL,
+                'password' => NULL,
             ],
-            $config ?: []
-        );
+            'charset' => 'utf8',
+            'timeout_seconds' => 5,
+            ...($config ?? []),
+        ];
     }
 
 
     /**
      * Convert the config to a doctrine connection array, including a NullPDO if there's no DB
      *
-     * @return array
-     *
      * @throws \InvalidArgumentException
      */
-    public function getConnection()
+    public function getConnection(): array
     {
         if ($this->config['type'] !== 'MySQL') {
             throw new \InvalidArgumentException(

@@ -9,6 +9,7 @@ use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use Ingenerator\KohanaDoctrine\ExplicitClasslistAttributeDriver;
+use PDO;
 use Psr\Cache\CacheItemPoolInterface;
 
 class DoctrineFactory
@@ -17,9 +18,8 @@ class DoctrineFactory
     /**
      * Core definitions for all the services required to run with doctrine in our default configuration
      *
-     * @return array
      */
-    public static function definitions()
+    public static function definitions(): array
     {
         return [
             'doctrine' => [
@@ -136,11 +136,8 @@ class DoctrineFactory
      * Note also that subscribers CANNOT have any dependency on the doctrine.entity_manager as that will create circular
      * reference problems during construction of the entity manager.
      *
-     * @param array $subscribers
-     *
-     * @return array
      */
-    public static function subscriberDefinitions(array $subscribers)
+    public static function subscriberDefinitions(array $subscribers): array
     {
         $defs = [
             'event_manager' => [
@@ -165,18 +162,13 @@ class DoctrineFactory
     }
 
     /**
-     * @param ConnectionConfigProvider $conn
-     * @param Configuration            $config
-     * @param EventManager             $event_manager
-     *
-     * @return EntityManager
      * @throws \Doctrine\ORM\ORMException
      */
     public static function buildEntityManager(
         ConnectionConfigProvider $conn,
         Configuration $config,
         EventManager $event_manager
-    ) {
+    ): EntityManager {
         return EntityManager::create(
             $conn->getConnection(),
             $config,
@@ -187,7 +179,6 @@ class DoctrineFactory
     /**
      * Creates and configures the ORM config
      *
-     * @return Configuration
      * @throws \Doctrine\DBAL\DBALException
      */
     public static function buildORMConfig(
@@ -195,16 +186,14 @@ class DoctrineFactory
         CacheItemPoolInterface $compiler_cache,
         CacheItemPoolInterface $data_cache,
         ?array $config = NULL
-    ) {
-        $config  = \array_merge(
-            [
-                'auto_gen_proxies' => \Kohana::$environment === \Kohana::DEVELOPMENT,
-                'proxy_dir'        => APPPATH.'/DoctrineEntityProxy',
-                'proxy_namespace'  => 'DoctrineEntityProxy',
-                'custom_types'     => [],
-            ],
-            $config ?? []
-        );
+    ):Configuration {
+        $config = [
+            'auto_gen_proxies' => \Kohana::$environment === \Kohana::DEVELOPMENT,
+            'proxy_dir' => APPPATH.'/DoctrineEntityProxy',
+            'proxy_namespace' => 'DoctrineEntityProxy',
+            'custom_types' => [],
+            ...($config ?? []),
+        ];
         $orm_cfg = new \Doctrine\ORM\Configuration;
         $orm_cfg->setMetadataDriverImpl($meta_driver);
 
@@ -228,12 +217,7 @@ class DoctrineFactory
         return $orm_cfg;
     }
 
-    /**
-     * @param EntityManager $entityManager
-     *
-     * @return \Doctrine\DBAL\Driver\Connection
-     */
-    public static function getRawPDO(EntityManager $entityManager)
+    public static function getRawPDO(EntityManager $entityManager): PDO
     {
         // NOTE: getNativeConnection() returns a raw PDO object, *not* a Doctrine extension of the PDO object
         // as in DBAL < 3. That is because in DBAL >= 3, the doctrine connection object is a *proxy* to the
@@ -249,9 +233,9 @@ class DoctrineFactory
         // to couple things that currently know nothing about doctrine such as the MysqlSession handler from
         // php-utils.
         $driver = $entityManager->getConnection()->getNativeConnection();
-        if ( ! $driver instanceof \PDO) {
+        if ( ! $driver instanceof PDO) {
             throw new \InvalidArgumentException(
-                'Expected Doctrine connection to be instance of '.\PDO::class.', got '.\get_class($driver)
+                'Expected Doctrine connection to be instance of '.PDO::class.', got '.\get_class($driver)
             );
         }
 

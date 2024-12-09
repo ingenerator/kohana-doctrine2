@@ -19,7 +19,7 @@ class ExplicitClasslistAttributeDriver extends AttributeDriver
         $this->classNames = $entity_classes ?? [];
     }
 
-    public function getAllClassNames()
+    public function getAllClassNames(): array
     {
         foreach ($this->classNames as $class_name) {
             if ( ! \class_exists($class_name)) {
@@ -35,7 +35,7 @@ class ExplicitClasslistAttributeDriver extends AttributeDriver
         throw new \BadMethodCallException(__CLASS__.' does not support access to entity paths');
     }
 
-    public function addPaths(array $paths)
+    public function addPaths(array $paths): void
     {
         if ($paths === []) {
             // This is always called by the constructor as of doctrine/persistence@2.4.0

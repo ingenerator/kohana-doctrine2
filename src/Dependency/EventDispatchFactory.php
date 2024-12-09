@@ -9,15 +9,11 @@ use Doctrine\Common\EventSubscriber;
 
 class EventDispatchFactory
 {
-    /**
-     * @param EventSubscriber|NULL $subscriber,...
-     *
-     * @return EventManager
-     */
-    public static function buildEventManagerWithSubscribers(EventSubscriber $subscriber = NULL)
+
+    public static function buildEventManagerWithSubscribers(EventSubscriber ...$subscribers): EventManager
     {
         $manager = new EventManager;
-        foreach (\func_get_args() as $subscriber) {
+        foreach ($subscribers as $subscriber) {
             $manager->addEventSubscriber($subscriber);
         }
 
