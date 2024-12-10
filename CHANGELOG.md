@@ -10,6 +10,7 @@
 * [BREAKING] Switch to using PSR-6 cache implementations for metadata, query and result caches:
   - drops the composer dependency on doctrine/cache in favour of symfony/cache
   - DoctrineCacheFactory methods are now hard-typehinted to return CacheItemPoolInterface
+* [BREAKING] All classes and methods now have hard typehints and return values
 * Narrow supported dependency versions to the current latest minor of the suppoerted
   major version.
 * Drop support for PHP < 8.2
