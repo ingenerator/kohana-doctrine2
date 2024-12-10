@@ -34,19 +34,19 @@
   "require": {
     "php": "~8.2.0 || ~8.3.0",
     "ext-pdo": "*",
-    "composer/installers": "~1.0",
-    "doctrine/annotations": "^1.13",
-    "doctrine/cache": "^1",
-    "doctrine/common": "^3.0",
-    "doctrine/dbal": "^3.3",
-    "doctrine/orm": "^2.5",
-    "doctrine/persistence": "^2.3",
-    "ingenerator/kohana-core": "^4.9",
-    "ingenerator/kohana-dependencies": "^1.1"
+    "composer/installers": "^1.12 || ^2",
+    "doctrine/annotations": "^1.14",
+    "doctrine/cache": "^1.13",
+    "doctrine/common": "^3.4",
+    "doctrine/dbal": "^3.9",
+    "doctrine/orm": "^2.20",
+    "doctrine/persistence": "^2.5",
+    "ingenerator/kohana-core": "^4.12",
+    "ingenerator/kohana-dependencies": "^1.4"
   },
   "require-dev": {
     "kohana/koharness": "dev-master",
-    "phpunit/phpunit": "^9.5.5"
+    "phpunit/phpunit": "^9.6.22"
   },
   "minimum-stability": "stable",
   "config": {
