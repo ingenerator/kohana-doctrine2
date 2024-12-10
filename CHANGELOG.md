@@ -1,5 +1,11 @@
 ### Unreleased
 
+## v3.0.0 (2024-12-09)
+
+* Narrow supported dependency versions to the current latest minor of the suppoerted
+  major version.
+* Drop support for PHP < 8.2
+
 ## v2.1.0 (2024-09-25)
 
 * Support PHP 8.3
