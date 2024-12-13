@@ -13,6 +13,7 @@
 * [BREAKING] All classes and methods now have hard typehints and return values
 * [CHANGE] Now allows doctrine/persistence 3.x as well as 2.x - projects that specifically
   require doctrine/persistence 2.x may need to pin it in their own composer.json.
+* Add `EntityDetacher::detachAllOfType` as a migration path for the old `$entityManager->clear($entityName)` 
 * Narrow supported dependency versions to the current latest minor of the suppoerted
   major version.
 * Drop support for PHP < 8.2
