@@ -1,6 +1,6 @@
 ### Unreleased
 
-## v3.0.0 (2024-12-09)
+## v3.0.0 (2024-12-13)
 
 * [BREAKING] Switch to using attributes instead of annotations for mapping
   - Removes the `ExplicitCallslistAnnotationDriver` class
