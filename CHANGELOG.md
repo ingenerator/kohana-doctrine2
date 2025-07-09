@@ -1,5 +1,10 @@
 ### Unreleased
 
+## v3.1.0 (2025-07-22)
+
+* Support PHP 8.4
+* Drop support for symfony cache 6
+
 ## v3.0.0 (2024-12-13)
 
 * [BREAKING] Switch to using attributes instead of annotations for mapping
