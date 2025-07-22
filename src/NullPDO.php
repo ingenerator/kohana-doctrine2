@@ -21,6 +21,16 @@ class NullPDO extends \PDO
         }
     }
 
+    public static function connect(
+        ?string  $dsn,
+        ?string $username = NULL,
+        ?string $password = NULL,
+        ?array  $options = NULL
+    ): static {
+        throw DatabaseNotConfiguredException::forMethod(__METHOD__);
+    }
+
+
     public function setAttribute($attribute, $value): bool
     {
         // No-op

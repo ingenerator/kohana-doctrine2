@@ -32,7 +32,7 @@
     }
   ],
   "require": {
-    "php": "~8.2.0 || ~8.3.0",
+    "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
     "ext-pdo": "*",
     "composer/installers": "^1.12 || ^2",
     "doctrine/common": "^3.4",
@@ -41,11 +41,11 @@
     "doctrine/persistence": "^2.5 || ^3.4",
     "ingenerator/kohana-core": "^4.12",
     "ingenerator/kohana-dependencies": "^1.4",
-    "symfony/cache": "^6.4 || ^7.2"
+    "symfony/cache": "^7.3"
   },
   "require-dev": {
     "kohana/koharness": "dev-master",
-    "phpunit/phpunit": "^9.6.22"
+    "phpunit/phpunit": "^9.6.23"
   },
   "minimum-stability": "stable",
   "config": {
