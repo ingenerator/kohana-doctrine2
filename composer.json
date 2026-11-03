@@ -36,6 +36,7 @@
     "ext-pdo": "*",
     "doctrine/common": "^3.4",
     "doctrine/dbal": "^3.9",
+    "doctrine/event-manager": "^2.1",
     "doctrine/orm": "^2.20",
     "doctrine/persistence": "^3.4.5",
     "ingenerator/kohana-core": "^4.12",
