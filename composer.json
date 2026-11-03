@@ -44,7 +44,6 @@
     "symfony/cache": "^7.3"
   },
   "require-dev": {
-    "kohana/koharness": "dev-master",
     "phpunit/phpunit": "^9.6.23"
   },
   "minimum-stability": "stable",

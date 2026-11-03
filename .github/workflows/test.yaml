@@ -36,10 +36,6 @@ jobs:
       with:
         dependency-versions: ${{ matrix.dependency-versions }}
 
-    - name: Run koharness
-      run: |
-        vendor/bin/koharness
-
     - name: Run unit tests
       run: |
         vendor/bin/phpunit
