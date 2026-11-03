@@ -34,7 +34,6 @@
   "require": {
     "php": "~8.4.0",
     "ext-pdo": "*",
-    "composer/installers": "^1.12 || ^2",
     "doctrine/common": "^3.4",
     "doctrine/dbal": "^3.9",
     "doctrine/orm": "^2.20",
@@ -52,10 +51,7 @@
   "minimum-stability": "stable",
   "config": {
     "preferred-install": "dist",
-    "sort-packages": true,
-    "allow-plugins": {
-      "composer/installers": true
-    }
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {
