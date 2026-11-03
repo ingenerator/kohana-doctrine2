@@ -32,14 +32,14 @@
     }
   ],
   "require": {
-    "php": "~8.4.0",
+    "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
     "ext-pdo": "*",
     "doctrine/common": "^3.4",
     "doctrine/dbal": "^3.9",
     "doctrine/orm": "^2.20",
     "doctrine/persistence": "^2.5 || ^3.4",
     "ingenerator/kohana-core": "^4.12",
-    "ingenerator/kohana-dependencies": "^1.4",
+    "ingenerator/kohana-dependencies": "^1.6",
     "symfony/cache": "^7.3"
   },
   "require-dev": {
