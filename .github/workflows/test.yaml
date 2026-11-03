@@ -40,4 +40,8 @@ jobs:
 
     - name: Run unit tests
       run: |
-        vendor/bin/phpunit
+        vendor/bin/phpunit --testsuite=unit
+
+    - name: Run integration tests
+      run: |
+        vendor/bin/phpunit --testsuite=integration
