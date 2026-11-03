@@ -4,6 +4,14 @@
 namespace test\integration\Ingenerator\KohanaDoctrine\Dependency;
 
 
+use Kohana;
+use Config;
+use Kohana_Config_Source;
+use PDO;
+use PHPUnit\Framework\Attributes\DataProvider;
+use Arr;
+use Dependency_Definition_List;
+use Dependency_Container;
 use Doctrine\Common\EventManager;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\Common\Proxy\AbstractProxyFactory;
@@ -33,20 +41,20 @@ class DoctrineFactoryTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->cfg_before = \Kohana::$config;
-        $this->env_before = \Kohana::$environment;
-        \Kohana::$config  = new \Config;
-        \Kohana::$config->attach($this->getMockBuilder(\Kohana_Config_Source::class)->getMock());
+        $this->cfg_before = Kohana::$config;
+        $this->env_before = Kohana::$environment;
+        Kohana::$config  = new Config;
+        Kohana::$config->attach($this->createMock(Kohana_Config_Source::class));
     }
 
     protected function tearDown(): void
     {
-        \Kohana::$config      = $this->cfg_before;
-        \Kohana::$environment = $this->env_before;
+        Kohana::$config      = $this->cfg_before;
+        Kohana::$environment = $this->env_before;
         parent::tearDown();
     }
 
-    public function provider_expected_services()
+    public static function provider_expected_services()
     {
         return [
             ['doctrine.cache.data_cache', CacheItemPoolInterface::class, TRUE],
@@ -56,13 +64,11 @@ class DoctrineFactoryTest extends TestCase
             ['doctrine.config.orm_config', Configuration::class, TRUE],
             ['doctrine.entity_manager', EntityManager::class, TRUE],
             ['doctrine.event_manager', EventManager::class, TRUE],
-            ['doctrine.pdo_connection', \PDO::class, TRUE],
+            ['doctrine.pdo_connection', PDO::class, TRUE],
         ];
     }
 
-    /**
-     * @dataProvider provider_expected_services
-     */
+    #[DataProvider('provider_expected_services')]
     public function test_it_can_configure_all_published_services(
         $key,
         $expect_class,
@@ -86,21 +92,19 @@ class DoctrineFactoryTest extends TestCase
         }
     }
 
-    public function provider_expected_compiler_cache()
+    public static function provider_expected_compiler_cache()
     {
         return [
-            [\Kohana::DEVELOPMENT, ArrayAdapter::class],
-            [\Kohana::STAGING, ApcuAdapter::class],
-            [\Kohana::PRODUCTION, ApcuAdapter::class],
+            [Kohana::DEVELOPMENT, ArrayAdapter::class],
+            [Kohana::STAGING, ApcuAdapter::class],
+            [Kohana::PRODUCTION, ApcuAdapter::class],
         ];
     }
 
-    /**
-     * @dataProvider provider_expected_compiler_cache
-     */
+    #[DataProvider('provider_expected_compiler_cache')]
     public function test_it_uses_apcu_compiler_cache_by_default_or_array_cache_in_dev($env, $expect)
     {
-        \Kohana::$environment = $env;
+        Kohana::$environment = $env;
         $container            = $this->newContainer(DoctrineFactory::definitions());
         $cache                = $container->get('doctrine.cache.compiler_cache');
         $this->assertInstanceOf($expect, $cache);
@@ -118,20 +122,18 @@ class DoctrineFactoryTest extends TestCase
         );
     }
 
-    public function provider_expected_data_cache()
+    public static function provider_expected_data_cache()
     {
         return [
-            [\Kohana::DEVELOPMENT],
-            [\Kohana::PRODUCTION],
+            [Kohana::DEVELOPMENT],
+            [Kohana::PRODUCTION],
         ];
     }
 
-    /**
-     * @dataProvider provider_expected_data_cache
-     */
+    #[DataProvider('provider_expected_data_cache')]
     public function test_it_uses_array_cache_for_data_cache_by_default_in_all_environments($env)
     {
-        \Kohana::$environment = $env;
+        Kohana::$environment = $env;
         $container            = $this->newContainer(DoctrineFactory::definitions());
         $cache                = $container->get('doctrine.cache.data_cache');
         $this->assertInstanceOf(ArrayAdapter::class, $cache);
@@ -150,7 +152,7 @@ class DoctrineFactoryTest extends TestCase
 
     public function test_it_attaches_database_config_from_kohana_config()
     {
-        $db_cfg = \Kohana::$config->load('database');
+        $db_cfg = Kohana::$config->load('database');
         $db_cfg->exchangeArray(
             [
                 'default' => [
@@ -175,7 +177,7 @@ class DoctrineFactoryTest extends TestCase
                 'dbname'        => 'mydb',
                 'charset'       => 'utf8',
                 'driverOptions' => [
-                    \PDO::ATTR_TIMEOUT => 5,
+                    PDO::ATTR_TIMEOUT => 5,
                 ],
             ],
             $cfg->getConnection()
@@ -193,11 +195,11 @@ class DoctrineFactoryTest extends TestCase
         $this->assertEquals(['whatever'], $meta->getColumnNames());
     }
 
-    public function provider_proxy_generation()
+    public static function provider_proxy_generation()
     {
         return [
             [
-                \Kohana::DEVELOPMENT,
+                Kohana::DEVELOPMENT,
                 [],
                 [
                     'autogenerate'    => AbstractProxyFactory::AUTOGENERATE_ALWAYS,
@@ -206,7 +208,7 @@ class DoctrineFactoryTest extends TestCase
                 ],
             ],
             [
-                \Kohana::PRODUCTION,
+                Kohana::PRODUCTION,
                 [],
                 [
                     'autogenerate'    => AbstractProxyFactory::AUTOGENERATE_NEVER,
@@ -215,7 +217,7 @@ class DoctrineFactoryTest extends TestCase
                 ],
             ],
             [
-                \Kohana::PRODUCTION,
+                Kohana::PRODUCTION,
                 [
                     'orm' => [
                         'auto_gen_proxies' => TRUE,
@@ -232,15 +234,13 @@ class DoctrineFactoryTest extends TestCase
         ];
     }
 
-    /**
-     * @dataProvider provider_proxy_generation
-     */
+    #[DataProvider('provider_proxy_generation')]
     public function test_it_configures_proxy_generation_from_defaults_or_from_config_overrides(
         $env,
         $cfg,
         $expect
     ) {
-        \Kohana::$environment = $env;
+        Kohana::$environment = $env;
         $this->givenDoctrineConfig($cfg);
         $container = $this->newContainer(DoctrineFactory::definitions());
         $config    = $container->get('doctrine.config.orm_config');
@@ -280,7 +280,7 @@ class DoctrineFactoryTest extends TestCase
     {
         $container = $this->newContainer(DoctrineFactory::definitions());
         $pdo       = $container->get('doctrine.pdo_connection');
-        $this->assertInstanceOf(\PDO::class, $pdo);
+        $this->assertInstanceOf(PDO::class, $pdo);
         $em = $container->get('doctrine.entity_manager');
         /** @var EntityManager $em */
         $this->assertSame($pdo, $em->getConnection()->getNativeConnection());
@@ -297,7 +297,7 @@ class DoctrineFactoryTest extends TestCase
 
     public function test_it_attaches_event_subscribers_if_defined()
     {
-        $defs      = \Arr::merge(
+        $defs      = Arr::merge(
             DoctrineFactory::definitions(),
             DoctrineFactory::subscriberDefinitions(
                 [
@@ -321,19 +321,19 @@ class DoctrineFactoryTest extends TestCase
     protected function givenDoctrineConfig(array $cfg)
     {
         /** @noinspection PhpUnhandledExceptionInspection */
-        $group = \Kohana::$config->load('doctrine');
+        $group = Kohana::$config->load('doctrine');
         $group->exchangeArray($cfg);
     }
 
     /**
      * @param array $definitions
      *
-     * @return \Dependency_Container
+     * @return Dependency_Container
      */
     protected function newContainer(array $definitions)
     {
-        $list      = \Dependency_Definition_List::factory()->from_array($definitions);
-        $container = new \Dependency_Container($list);
+        $list      = Dependency_Definition_List::factory()->from_array($definitions);
+        $container = new Dependency_Container($list);
 
         return $container;
     }

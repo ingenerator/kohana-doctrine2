@@ -3,6 +3,9 @@
 namespace test\unit\Ingenerator\KohanaDoctrine;
 
 
+use ReflectionClass;
+use ReflectionMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Ingenerator\KohanaDoctrine\DatabaseNotConfiguredException;
 use Ingenerator\KohanaDoctrine\NullPDO;
 use InvalidArgumentException;
@@ -33,34 +36,34 @@ class NullPDOTest extends TestCase
 
     public function test_it_silently_accepts_set_attributes()
     {
-        $this->newSubject()->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+        $this->newSubject()->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         $this->assertTrue(TRUE);
     }
 
     public function test_it_returns_driver_name_attribute()
     {
-        $this->assertSame('mysql', $this->newSubject()->getAttribute(\PDO::ATTR_DRIVER_NAME));
+        $this->assertSame('mysql', $this->newSubject()->getAttribute(PDO::ATTR_DRIVER_NAME));
     }
 
     public function test_it_returns_mysql_version_5_7()
     {
         // The actual server version is somewhat unimportant, doctrine/dbal doesn't differentiate between 5.x and 8.x
         // in any meaningful way at this point. We just need to return a version.
-        $this->assertSame('5.7.29', $this->newSubject()->getAttribute(\PDO::ATTR_SERVER_VERSION));
+        $this->assertSame('5.7.29', $this->newSubject()->getAttribute(PDO::ATTR_SERVER_VERSION));
     }
 
     public function test_it_throws_on_access_to_unexpected_get_attribute_call()
     {
         $this->expectException(DatabaseNotConfiguredException::class);
-        $this->newSubject()->getAttribute(\PDO::ATTR_CONNECTION_STATUS);
+        $this->newSubject()->getAttribute(PDO::ATTR_CONNECTION_STATUS);
     }
 
-    public function provider_throwing_method_calls()
+    public static function provider_throwing_method_calls()
     {
         // Dynamic get all underlying PDO methods with dummy arguments
         $cases = [];
-        $refl  = new \ReflectionClass(\PDO::class);
-        foreach ($refl->getMethods(\ReflectionMethod::IS_PUBLIC) as $method) {
+        $refl  = new ReflectionClass(PDO::class);
+        foreach ($refl->getMethods(ReflectionMethod::IS_PUBLIC) as $method) {
             $param_count = $method->getNumberOfParameters();
             $args        = $param_count ? \array_fill(0, $param_count, NULL) : [];
 
@@ -80,9 +83,7 @@ class NullPDOTest extends TestCase
         return \array_values($cases);
     }
 
-    /**
-     * @dataProvider provider_throwing_method_calls
-     */
+    #[DataProvider('provider_throwing_method_calls')]
     public function test_it_throws_database_not_configured_on_any_call_to_pdo_method($method, $args)
     {
         $subject = $this->newSubject();

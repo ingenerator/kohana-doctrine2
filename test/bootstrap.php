@@ -1,7 +1,6 @@
 <?php
 
 use Composer\Autoload\ClassLoader;
-use Doctrine\DBAL\Exception\ConnectionException;
 
 // Set up temporary directories for the app
 // These need to exist and be writable, though we do very little with them
@@ -49,10 +48,10 @@ Kohana::$config->attach(new Config_File);
 
 Kohana::modules([]);
 
-\Session::$default = 'array';
+Session::$default = 'array';
 
 // Autoload mocks and test-support helpers that should not autoload in the main app
-$mock_loader = new \Composer\Autoload\ClassLoader;
+$mock_loader = new ClassLoader;
 $mock_loader->addPsr4('test\\mock\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/mock/']);
 $mock_loader->addPsr4('test\\integration\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/integration/']);
 $mock_loader->addPsr4('test\\unit\\Ingenerator\\KohanaDoctrine\\', [__DIR__.'/unit/']);

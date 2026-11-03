@@ -3,6 +3,7 @@
 namespace test\unit\Ingenerator\KohanaDoctrine\Dependency;
 
 
+use PDO;
 use Ingenerator\KohanaDoctrine\Dependency\ConnectionConfigProvider;
 use Ingenerator\KohanaDoctrine\FakeMysqlDriver;
 use InvalidArgumentException;
@@ -41,7 +42,7 @@ class ConnectionConfigProviderTest extends TestCase
             ],
         ];
         $connection   = $this->newSubject()->getConnection();
-        $this->assertSame(5, $connection['driverOptions'][\PDO::ATTR_TIMEOUT]);
+        $this->assertSame(5, $connection['driverOptions'][PDO::ATTR_TIMEOUT]);
     }
 
     public function test_it_is_initialisable()
@@ -92,7 +93,7 @@ class ConnectionConfigProviderTest extends TestCase
                 'dbname'        => 'ourdatabase',
                 'charset'       => 'cp1212',
                 'driverOptions' => [
-                    \PDO::ATTR_TIMEOUT => 10,
+                    PDO::ATTR_TIMEOUT => 10,
                 ],
             ],
             $this->newSubject()->getConnection()
