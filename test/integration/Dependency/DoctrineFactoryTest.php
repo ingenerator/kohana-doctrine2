@@ -44,7 +44,7 @@ class DoctrineFactoryTest extends TestCase
         $this->cfg_before = Kohana::$config;
         $this->env_before = Kohana::$environment;
         Kohana::$config  = new Config;
-        Kohana::$config->attach($this->createMock(Kohana_Config_Source::class));
+        Kohana::$config->attach($this->createStub(Kohana_Config_Source::class));
     }
 
     protected function tearDown(): void
