@@ -32,32 +32,35 @@
     }
   ],
   "require": {
-    "php": "~8.2.0 || ~8.3.0 || ~8.4.0",
+    "php": "~8.4.0 || ~8.5.0 || ~8.6.0",
     "ext-pdo": "*",
-    "composer/installers": "^1.12 || ^2",
     "doctrine/common": "^3.4",
     "doctrine/dbal": "^3.9",
+    "doctrine/event-manager": "^2.1",
     "doctrine/orm": "^2.20",
-    "doctrine/persistence": "^2.5 || ^3.4",
+    "doctrine/persistence": "^3.4.5",
     "ingenerator/kohana-core": "^4.12",
-    "ingenerator/kohana-dependencies": "^1.4",
+    "ingenerator/kohana-dependencies": "^1.6",
     "symfony/cache": "^7.3"
   },
   "require-dev": {
-    "kohana/koharness": "dev-master",
-    "phpunit/phpunit": "^9.6.23"
+    "ext-mbstring": "*",
+    "ergebnis/phpunit-slow-test-detector": "^2.15",
+    "phpunit/phpunit": "^13.4",
+    "rector/rector": "^2.8"
   },
   "minimum-stability": "stable",
   "config": {
     "preferred-install": "dist",
-    "sort-packages": true,
-    "allow-plugins": {
-      "composer/installers": true
-    }
+    "sort-packages": true
   },
   "extra": {
     "branch-alias": {
       "dev-master": "1.x-dev"
     }
+  },
+  "scripts": {
+    "rector": "rector --dry-run",
+    "rector-fix": "rector"
   }
 }

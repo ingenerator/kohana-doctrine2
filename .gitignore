@@ -1,6 +1,5 @@
 /composer.lock
 /vendor
 /modules
-/koharness_bootstrap.php
 /.idea
 .phpunit.result.cache

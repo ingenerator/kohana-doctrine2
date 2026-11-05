@@ -1,5 +1,11 @@
 ### Unreleased
 
+## v3.2.0 (2026-11-05)
+
+* Drop support for PHP 8.2 and PHP 8.3
+* Support PHP 8.5 and 8.6
+* Introduces a direct dependency on doctrine/event-manager ^v2.1 to support 8.6 work around composer prefer lowest using v1
+
 ## v3.1.0 (2025-07-22)
 
 * Support PHP 8.4
